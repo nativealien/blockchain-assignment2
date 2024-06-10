@@ -1,0 +1,21 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "Server running chain nodes",
+  "main": "server.mjs",
+  "scripts": {
+    "dev": "nodemon server.mjs"
+  },
+  "keywords": [],
+  "author": "Oskar Assarsson",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pubnub": "^8.2.3",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
+  }
+}
