@@ -6,6 +6,7 @@ export default class Blockchain{
     }
 
     newBlock({data}) {
+        console.log(this.chain.at(-1))
         const block = Block.mineBlock({
             lastBlock: this.chain.at(-1),
             data: data

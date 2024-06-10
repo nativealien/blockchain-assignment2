@@ -16,14 +16,16 @@ export default class Block{
         return new this(GENESIS_DATA)
     }
 
-    static mineBlock({ preBlock, data }){
+    static mineBlock({ lastBlock, data }){
         const newBlock = GENESIS_DATA
 
+        console.log(newBlock)
+
         newBlock.timestamp = Date.now();
-        newBlock.preHash = preBlock.hash;
-        newBlock.diff = preBlock.diff;
+        newBlock.preHash = lastBlock.hash;
+        newBlock.diff = lastBlock.diff;
         newBlock.nonce = 0
-        newBlock.hash = hashString(`${timestamp}${preHash}${diff}${nonce}${data}`)
+        newBlock.hash = hashString(`${newBlock.timestamp}${newBlock.preHash}${newBlock.diff}${newBlock.nonce}${newBlock.data}`)
         newBlock.data = data
 
         return newBlock
