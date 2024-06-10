@@ -1,5 +1,4 @@
 import { GENESIS_DATA, SETTINGS as s } from "../config/settings.mjs";
-const props = Object.keys(GENESIS_DATA)
 import { hashString, proofOfWork } from "../utils/crypto-utils.mjs";
 
 export default class Block{

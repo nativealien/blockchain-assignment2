@@ -1,13 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 
-import Blockchain from './models/Blockchain.mjs';
+import PubNubServer from './models/PubNubServer.mjs';
 import { blockRouter, chainRouter } from './routes/routes.mjs';
 
-dotenv.config({ path: './config/config.env' });
-
-export const blockchain = new Blockchain()
+export const pubnub = new PubNubServer()
 
 const app = express()
 
@@ -17,6 +14,6 @@ app.use(cors())
 app.use('/api/v2/blockchain', chainRouter)
 app.use('/api/v2/block', blockRouter)
 
-const PORT = 5001// process.env.MAIN_NODE ? process.env.MAIN_PORT : Math.floor(Math.random() * 999) + 5001;
+const PORT = process.env.MAIN_NODE ? process.env.MAIN_PORT : Math.floor(Math.random() * 999) + 5001;
 
 app.listen(PORT, () => console.log(`Node running on port ${PORT}`) )
