@@ -1,6 +1,6 @@
-import { GENESIS_DATA } from "../config/settings.mjs";
+import { GENESIS_DATA, SETTINGS as s } from "../config/settings.mjs";
 const props = Object.keys(GENESIS_DATA)
-import { hashString } from "../utils/crypto-utils.mjs";
+import { hashString, proofOfWork } from "../utils/crypto-utils.mjs";
 
 export default class Block{
     constructor(props){
@@ -17,17 +17,26 @@ export default class Block{
     }
 
     static mineBlock({ lastBlock, data }){
-        const newBlock = GENESIS_DATA
+        let preHash = lastBlock.hash
+        let hash, timestamp;
+        let diff = lastBlock.diff
+        let nonce = 0
 
-        console.log(newBlock)
-
-        newBlock.timestamp = Date.now();
-        newBlock.preHash = lastBlock.hash;
-        newBlock.diff = lastBlock.diff;
-        newBlock.nonce = 0
-        newBlock.hash = hashString(`${newBlock.timestamp}${newBlock.preHash}${newBlock.diff}${newBlock.nonce}${newBlock.data}`)
-        newBlock.data = data
-
-        return newBlock
+        let check = false;
+        while(!check){
+            nonce++;
+            timestamp = Date.now()
+            diff = timestamp - lastBlock.timestamp > s.MINE_RATE && diff > 1 ? diff - 1 : diff + 1;
+            hash = hashString(`${timestamp}${preHash}${diff}${nonce}${data}`)
+            check = proofOfWork(hash, diff)
+        }
+        return new this({
+            timestamp,
+            preHash,
+            hash,
+            diff,
+            nonce,
+            data
+        })
     }
 }

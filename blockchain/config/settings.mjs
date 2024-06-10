@@ -1,5 +1,5 @@
 export const SETTINGS = {
-    MINE_RATE: 1000,
+    MINE_RATE: 5000,
     INIT_BALANCE: 100,
     REWARD_ADDRESS: { address: 'temp'},
     MINE_REWARD: 50
