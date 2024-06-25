@@ -24,7 +24,7 @@ export default class PubNubServer extends PubNub{
                 console.log(`Message recieved on ${channel} channel: ${message}`)
 
                 if(channel === 'Blockchain'){
-                    this.blockchain.chain = message;
+                    this.blockchain.updateChain(message)
                 }
             }
         }
