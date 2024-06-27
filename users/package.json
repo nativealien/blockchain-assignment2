@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.mjs",
   "scripts": {
-    "dev": "node server.mjs"
+    "dev": "nodemon server.mjs"
   },
   "keywords": [],
   "author": "Oskar Assarsson",
