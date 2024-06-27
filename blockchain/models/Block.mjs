@@ -1,5 +1,5 @@
 import { GENESIS_DATA, SETTINGS as s } from "../config/settings.mjs";
-import { hashString, proofOfWork } from "../utils/crypto-utils.mjs";
+import { createHash, proofOfWork } from "../utils/crypto-utils.mjs";
 
 export default class Block{
     constructor(props){
@@ -26,7 +26,7 @@ export default class Block{
             nonce++;
             timestamp = Date.now()
             diff = timestamp - lastBlock.timestamp > s.MINE_RATE && diff > 1 ? diff - 1 : diff + 1;
-            hash = hashString(`${timestamp}${preHash}${diff}${nonce}${data}`)
+            hash = createHash(`${timestamp}${preHash}${diff}${nonce}${data}`)
             check = proofOfWork(hash, diff)
         }
         return new this({

@@ -1,5 +1,5 @@
 import Block from "./Block.mjs"
-import { hashString } from "../utils/crypto-utils.mjs"
+import { createHash } from "../utils/crypto-utils.mjs"
 
 export default class Blockchain{
     constructor(){
@@ -36,7 +36,7 @@ export default class Blockchain{
             if(preHash !== lastHash || Math.abs(lastDiff - diff) > 2) return false
             
 
-            const checkHash = hashString(`${timestamp}${preHash}${diff}${nonce}${data}`)
+            const checkHash = createHash(`${timestamp}${preHash}${diff}${nonce}${data}`)
             if(hash !== checkHash) return false
         }
         return true

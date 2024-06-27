@@ -4,7 +4,7 @@ import { setFolderPath } from './utils/files-utils.mjs';
 global.__appdir = setFolderPath(import.meta.url)
 
 import PubNubServer from './models/PubNubServer.mjs';
-import { blockRouter, chainRouter } from './routes/routes.mjs';
+import { blockRouter, chainRouter, cryptoRouter } from './routes/routes.mjs';
 import { handleError, handleUndefined, loggEvent } from './middle/handle-events.mjs';
 
 export const pubnub = new PubNubServer()
@@ -17,6 +17,7 @@ app.use( loggEvent )
 
 app.use('/api/v2/blockchain', chainRouter)
 app.use('/api/v2/block', blockRouter)
+app.use('/api/v2/crypto', cryptoRouter)
 
 app.all('*', handleUndefined )
 app.use( handleError )

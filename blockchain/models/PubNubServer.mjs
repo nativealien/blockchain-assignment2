@@ -1,5 +1,7 @@
 import PubNub from 'pubnub'
 import Blockchain from './Blockchain.mjs'
+import Wallet from './Wallet.mjs'
+import TransactionPool from './TransactionPool.mjs'
 import { PUBNUB_CREDENTALS, CHANNELS } from '../config/settings.mjs'
 
 export default class PubNubServer extends PubNub{
@@ -7,6 +9,12 @@ export default class PubNubServer extends PubNub{
         super(PUBNUB_CREDENTALS)
 
         this.blockchain = new Blockchain()
+        this.pool = new TransactionPool()
+        this.wallets = [
+            new Wallet('wallet1'),
+            new Wallet('wallet2'),
+            new Wallet('wallet3')
+        ]
         this.subscribe({ channels: CHANNELS })
         this.addListener(this.receiver())
     }
