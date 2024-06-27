@@ -23,6 +23,19 @@ export default class Transaction{
         }
     }
 
-    validate(transaction){}
-    update({sender, reciever, amount}){}
+    static validate(transaction){
+        const { input: { address, amount, signature }, output } = transaction
+        const outputSum = Object.values(output).reduce((total, amount) => total + amount)
+
+        if(amount !== outputSum) return false
+
+        return true
+    }
+    update({sender, reciever, amount}){
+        if(amount > this.output[sender.publicKey]) throw new Error('Not enough funds...')
+        
+        this.output[reciever] = amount
+        this.output[sender.publicKey] = this.output[sender.publicKey] - amount
+        this.input = this.createInput({sender, output: this.output})
+    }
 }
