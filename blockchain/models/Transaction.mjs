@@ -1,4 +1,5 @@
 import { v4 } from 'uuid'
+import { verifySign } from '../utils/crypto-utils.mjs'
 
 export default class Transaction{
     constructor({sender, reciever, amount}){
@@ -28,6 +29,7 @@ export default class Transaction{
         const outputSum = Object.values(output).reduce((total, amount) => total + amount)
 
         if(amount !== outputSum) return false
+        if(!verifySign({publicKey: address, data: output, signature})) return false
 
         return true
     }

@@ -1,11 +1,12 @@
 import { it, describe, expect, beforeEach } from "vitest";
 import Transaction from "../models/Transaction.mjs";
+import Wallet from "../models/Wallet.mjs";
 
 describe("Transaction", () => {
-  let sender, reciever, amount, transaction, transaction2;
+  let sender, reciever, amount, transaction;
 
   beforeEach(() => {
-    sender = { publicKey: "<PUBLIC_KEY>", balance: 100 };
+    sender = new Wallet();
     reciever = "Milo";
     amount = 50;
     transaction = new Transaction({ sender, reciever, amount });
