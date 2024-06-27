@@ -3,13 +3,13 @@ import Transaction from "../models/Transaction.mjs";
 import Wallet from "../models/Wallet.mjs";
 
 describe("Transaction", () => {
-  let sender, reciever, amount, transaction;
+  let sender, receiver, amount, transaction;
 
   beforeEach(() => {
     sender = new Wallet();
-    reciever = "Milo";
+    receiver = "Milo";
     amount = 50;
-    transaction = new Transaction({ sender, reciever, amount });
+    transaction = new Transaction({ sender, receiver, amount });
   });
   describe("Properties:", () => {
     describe("ID:", () => {
@@ -24,7 +24,7 @@ describe("Transaction", () => {
       it("as type object", () =>
         expect(transaction.output).toBeTypeOf("object"));
       it("displays recievers balance", () =>
-        expect(transaction.output[reciever]).toEqual(amount));
+        expect(transaction.output[receiver]).toEqual(amount));
       it("displays sender balance", () =>
         expect(transaction.output[sender.publicKey]).toEqual(
           sender.balance - amount
@@ -41,7 +41,6 @@ describe("Transaction", () => {
         expect(transaction.input.amount).toEqual(sender.balance));
       it("sets the sender public key", () =>
         expect(transaction.input.address).toEqual(sender.publicKey));
-      // It should sign the input .toBe(true)
     });
   });
 
@@ -56,8 +55,9 @@ describe("Transaction", () => {
     });
     describe("validate:", () => {
       it("exists", () => expect(typeof Transaction.validate).toBe("function"));
-      it("is true if valid transaction", () =>
-        expect(Transaction.validate(transaction)).toBe(true));
+      it("is true if valid transaction", () =>{
+        expect(Transaction.validate(transaction)).toBe(true);
+      })
       it("is false if invalid transaction", () => {
         transaction.output[sender.publicKey] = 666;
         expect(Transaction.validate(transaction)).toBe(false);

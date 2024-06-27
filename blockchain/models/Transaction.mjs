@@ -2,15 +2,15 @@ import { v4 } from 'uuid'
 import { verifySign } from '../utils/crypto-utils.mjs'
 
 export default class Transaction{
-    constructor({sender, reciever, amount}){
+    constructor({sender, receiver, amount}){
         this.id = v4().replaceAll('-', '')
-        this.output = this.createOutput({sender, reciever, amount})
+        this.output = this.createOutput({sender, receiver, amount})
         this.input = this.createInput({ sender, output: this.output })
     }
 
-    createOutput({sender, reciever, amount}){
+    createOutput({sender, receiver, amount}){
         const map = {}
-        map[reciever] = amount;
+        map[receiver] = amount;
         map[sender.publicKey] = sender.balance - amount
         
         return map
@@ -20,7 +20,7 @@ export default class Transaction{
             timestamp: Date.now(),
             amount: sender.balance,
             address: sender.publicKey,
-            signature: output
+            signature: sender.sign(output)
         }
     }
 
@@ -33,10 +33,10 @@ export default class Transaction{
 
         return true
     }
-    update({sender, reciever, amount}){
+    update({sender, receiver, amount}){
         if(amount > this.output[sender.publicKey]) throw new Error('Not enough funds...')
         
-        this.output[reciever] = amount
+        this.output[receiver] = amount
         this.output[sender.publicKey] = this.output[sender.publicKey] - amount
         this.input = this.createInput({sender, output: this.output})
     }
