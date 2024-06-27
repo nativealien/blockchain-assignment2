@@ -39,4 +39,17 @@ userSchema.pre('save', async function (next) {
     next();
 })
 
+userSchema.methods.validatePassword = async function (password){
+    return await bcrypt.compare(password, this.password)
+}
+
+userSchema.methods.generateToken = function() {
+    return jwt.sign({id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_TTL})
+}
+
+userSchema.statics.findByEmail = function(email){
+    console.log('MONGO', email)
+    return this.findOne({ email })
+}
+
 export default mongoose.model('User', userSchema)
