@@ -11,11 +11,8 @@ export default class PubNubServer extends PubNub{
 
         this.blockchain = new Blockchain()
         this.pool = new TransactionPool()
-        this.wallets = [
-            new Wallet('wallet1'),
-            new Wallet('wallet2'),
-            new Wallet('wallet3')
-        ]
+        this.wallets = new Wallet()
+     
         this.subscribe({ channels: CHANNELS })
         this.addListener(this.receiver())
 
