@@ -2,8 +2,8 @@ import Element from "./Element.mjs"
 import { login } from '../utils/api-utils.mjs'
 
 export default class Dom{
-    constructor(token){
-        this.token = token
+    constructor(){
+        this.token = localStorage.getItem('token')
         this.body = document.getElementsByTagName('body')[0]
         this.header = new Element({element: 'header'}).element
         this.main = new Element({element: 'main'}).element
@@ -14,20 +14,23 @@ export default class Dom{
     init(){
         Element.h1(this.header, 'header-h1', 'Swooosh...')
         this.navBar(this.header)
-        this.loginPage(this.main)
         this.body.appendChild(this.header)
         this.body.appendChild(this.main)
         this.body.appendChild(this.footer)
     }
-    updateMain(){
-
-    }
 
     navBar(parent){
-        const navbar = Element.nav(this.header, 'header-nav')
+        const navbar = Element.nav(parent, 'header-nav')
         Element.a(navbar, 'nav-home', 'Home', '#', 'click', e => this.homePage(this.main))
-        Element.a(navbar, 'nav-login', 'Login', '#', 'click', e => this.loginPage(this.main))
-        Element.a(navbar, 'nav-signup', 'Signup', '#', 'click', e => this.signupPage(this.main))
+        if(!this.token){
+            Element.a(navbar, 'nav-login', 'Login', '#', 'click', e => this.loginPage(this.main))
+            Element.a(navbar, 'nav-signup', 'Signup', '#', 'click', e => this.signupPage(this.main))
+            this.loginPage(this.main)
+        }else{
+            Element.a(navbar, 'nav-user', 'Account', '#', 'click', e => this.accountPage(this.main))
+            Element.a(navbar, 'nav-logout', 'Logout', '#', 'click', e => this.logout(e))
+            this.homePage(this.main)
+        }
         parent.appendChild(navbar)
     }
 
@@ -35,6 +38,12 @@ export default class Dom{
         parent.innerHTML = ''
         const section =         Element.section(parent, 'home-section')
         Element.h2(section, 'home-h2', 'Home')
+    }
+
+    accountPage(parent){
+        parent.innerHTML = ''
+        const section =         Element.section(parent, 'user-section')
+        Element.h2(section, 'user-h2', 'Account')
     }
 
     loginPage(parent){
@@ -47,10 +56,19 @@ export default class Dom{
         Element.button(form, 'login-button', 'Login', 'click', async e => {
             e.preventDefault()
             const result = await login({ email: email.value, password: password.value })
-            this.homePage(this.main)
+            localStorage.setItem('token', `Bearer ${await result.token}`)
+            location.reload()
         })
         Element.a(section, 'login-signup', 'or signup here', '#', 'click', e => this.signupPage(this.main) )
     }
+
+    logout(e){
+        e.preventDefault()
+        localStorage.removeItem('token')
+        location.reload()
+
+    }
+
     signupPage(parent){
         parent.innerHTML = ''
         const section =         Element.section(parent, 'login-section')

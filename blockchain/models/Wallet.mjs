@@ -10,11 +10,18 @@ export default class Wallet{
         this.publicKey = this.keys.getPublic('hex')
     }
 
-    sign(data){
-        return this.keys.sign(createHash(data))
-    }
+    // static getBalance({chain, publicKey}){
+
+    //     for(let i = chain.lengh-1; i > 0; i--){
+    //         const { tr}
+    //     }
+    // }
+
     transaction({ receiver, amount }){
         if(amount < this.balance) return new Transaction({ sender: this, receiver, amount })
         else throw new Error('You are poor...')
+    }
+    sign(data){
+        return this.keys.sign(createHash(data))
     }
 }

@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
+import colors from 'colors'
 import { setFolderPath } from './utils/files-utils.mjs';
 global.__appdir = setFolderPath(import.meta.url)
 
@@ -7,11 +9,15 @@ import PubNubServer from './models/PubNubServer.mjs';
 import { blockRouter, chainRouter, cryptoRouter } from './routes/routes.mjs';
 import { handleError, handleUndefined, loggEvent } from './middle/handle-events.mjs';
 
+import { connectDb } from './config/mongodb.mjs';
+connectDb()
+
 export const pubnub = new PubNubServer()
 
 const app = express()
 
 app.use(express.json())
+app.use(morgan('dev'))
 app.use(cors())
 app.use( loggEvent )
 
@@ -24,4 +30,4 @@ app.use( handleError )
 
 const PORT = process.env.MAIN_NODE ? process.env.MAIN_PORT : Math.floor(Math.random() * 999) + 5001;
 
-app.listen(PORT, () => console.log(`Node running on port ${PORT}`) )
+app.listen(PORT, () => console.log(`Node running on port ${PORT}`.green.bgGreen) )

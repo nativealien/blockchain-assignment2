@@ -2,6 +2,7 @@ import PubNub from 'pubnub'
 import Blockchain from './Blockchain.mjs'
 import Wallet from './Wallet.mjs'
 import TransactionPool from './TransactionPool.mjs'
+import Chain from './Schema/ChainSchema.mjs'
 import { PUBNUB_CREDENTALS, CHANNELS } from '../config/settings.mjs'
 
 export default class PubNubServer extends PubNub{
@@ -17,6 +18,12 @@ export default class PubNubServer extends PubNub{
         ]
         this.subscribe({ channels: CHANNELS })
         this.addListener(this.receiver())
+
+        this.initChain()
+    }
+    async initChain(){
+        const test =  await Chain.findOne({ name: "blockchain" })
+        this.blockchain.chain = test.chain
     }
 
     broadcast(channel, message){
