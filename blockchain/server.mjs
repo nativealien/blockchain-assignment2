@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import colors from 'colors'
+import dotenv from 'dotenv'
+dotenv.config()
+
 import { setFolderPath } from './utils/files-utils.mjs';
 global.__appdir = setFolderPath(import.meta.url)
 
@@ -28,6 +31,8 @@ app.use('/api/v2/crypto', cryptoRouter)
 app.all('*', handleUndefined )
 app.use( handleError )
 
-const PORT = process.env.MAIN_NODE === 'true' ? process.env.MAIN_PORT : Math.floor(Math.random() * 999) + 5001;
+console.log(process.env.MAIN_NODE)
+
+const PORT = process.env.MAIN_NODE === 'true' ? process.env.MAIN_PORT : process.argv[2]// Math.floor(Math.random() * 999) + 5001;
 
 app.listen(PORT, () => console.log(`Node running on port ${PORT}`.green.bgGreen) )

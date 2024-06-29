@@ -6,6 +6,7 @@ export default class TransactionPool{
     }
     addTransaction(transaction){
         this.transactions[transaction.id] = transaction
+        return this.transactions
     }
     checkTransaction({address}){
         const check = Object.values(this.transactions)

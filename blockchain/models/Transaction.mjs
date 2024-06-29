@@ -10,8 +10,10 @@ export default class Transaction{
 
     createOutput({sender, receiver, amount}){
         const map = {}
-        map[receiver] = amount;
-        map[sender.publicKey] = sender.balance - amount
+        // map[receiver] = {key: receiver, amount: amount};
+        // map[sender.publicKey] = {key: sender.publicKey, balance: sender.balance - amount}
+        map['receiver'] = {key: receiver, amount: amount};
+        map['sender'] = {key: sender.publicKey, balance: sender.balance - amount}
         
         return map
     }
@@ -26,7 +28,7 @@ export default class Transaction{
 
     static validate(transaction){
         const { input: { address, amount, signature }, output } = transaction
-        const outputSum = Object.values(output).reduce((total, amount) => total + amount)
+        const outputSum = Object.values(output.amount).reduce((total, amount) => total + amount)
 
         if(amount !== outputSum) return false
         if(!verifySign({publicKey: address, data: output, signature})) return false

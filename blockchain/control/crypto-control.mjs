@@ -2,7 +2,6 @@ import Response from "../models/Response.mjs";
 import { pubnub } from "../server.mjs";
 
 export const getPool = (req, res, next) => {
-    console.log('TEST')
     res.status(200).json(Response.get(null, pubnub.pool.transactions))
 }
 
@@ -15,11 +14,23 @@ export const getWallet = (req, res, next) => {
 export const sendTransaction = (req, res, next) => {
     const { sender, receiver, amount } = req.body
 
-    let transaction = pubnub.pool.checkTransaction({
-        address: sender.publicKey
-    })
+    // let transaction = pubnub.pool.checkTransaction({
+    //     address: sender.publicKey
+    // })
+    // if(transaction) console.log(transaction)
+    const wallet = pubnub.wallets.find(wallet => wallet.publicKey === sender)
 
-    res.status(201).json(Response.get(null, {data: 'Send Transaction'}))
+    if(wallet){
+        let transaction = wallet.transaction({receiver, amount})
+        if(typeof transaction === '')res.status(201).json(Response.get(null, {data: transaction}))
+        
+        let pool = pubnub.pool.addTransaction(transaction)
+        pubnub.broadcast('Transaction', {transaction: transaction, pool: pool})
+    
+        res.status(201).json(Response.get(null, {data: 'Send Transaction'}))
+    }else{
+        res.status(201).json(Response.get(null, {message: 'Wallet undefined...'}))
+    }
 }
 
 export const getTransaction = (req, res, next) => {

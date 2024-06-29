@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: './config/config.env' });
+// import dotenv from 'dotenv';
+// dotenv.config({ path: './config/config.env' });
 
 export const SETTINGS = {
     MINE_RATE: 3000,
@@ -17,13 +17,7 @@ export const GENESIS_DATA = {
     data: []
 }
 
-export const PUBNUB_CREDENTALS = {
-    publishKey: process.env.PUBLISH_KEY,
-    subscribeKey: process.env.SUBSCRIBE_KEY,
-    secretKey: process.env.SECRET_KEY,
-    userId: "Oskar"
-}
-
 export const CHANNELS = [
-    'Blockchain'
+    'Blockchain',
+    'Transaction'
 ]
