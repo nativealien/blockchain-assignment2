@@ -3,8 +3,8 @@ import { ellipticHash, createHash } from "../utils/crypto-utils.mjs";
 import Transaction from "./Transaction.mjs";
 
 export default class Wallet{
-    constructor(funds){
-        this.balance = funds;
+    constructor(){
+        this.balance = s.INIT_BALANCE;
         this.keys = ellipticHash.genKeyPair();
         this.publicKey = this.keys.getPublic('hex')
     }
@@ -17,7 +17,10 @@ export default class Wallet{
     // }
 
     transaction({ receiver, amount }){
-        if(amount < this.balance) return new Transaction({ sender: this, receiver, amount })
+        if(amount < this.balance){
+            this.balance = this.balance - amount
+            return new Transaction({ sender: this, receiver, amount })
+        }
         else return 'Unsuficient funds...'
     }
     sign(data){

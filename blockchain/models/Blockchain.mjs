@@ -18,8 +18,8 @@ export default class Blockchain{
     updateChain(newChain){
         if(newChain <= this.chain.length) return
         if(!Blockchain.validateChain(newChain)) return
-        console.log('Chain validated and updated')
-        this.chain = chain
+        console.log('Chain validated and updated', newChain)
+        this.chain = newChain
     }
 
     static validateChain(chain){

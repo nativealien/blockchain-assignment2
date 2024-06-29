@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-
-const chainSchema = new mongoose.Schema({
+const walletSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [ true, 'Name is required']
@@ -12,4 +11,4 @@ const chainSchema = new mongoose.Schema({
     }
 })
 
-export default mongoose.model('Chain', chainSchema)
+export default mongoose.model('Wallet', walletSchema)

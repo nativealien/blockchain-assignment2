@@ -23,6 +23,11 @@ export const login = asyncHandler( async (req, res, next) => {
     createAndSendToken(user, 201, res)
 })
 
+export const lostPassword = () => {}
+export const resetPassword = () => {}
+export const updateUser = () => {}
+export const updatePassword = () => {}
+
 export const getMe = asyncHandler( async (req, res, next) => {
     const user = await User.findById(req.user._id)
     res.status(200).json({ success: true, statusCode: 200, data: user})

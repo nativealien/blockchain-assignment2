@@ -15,13 +15,13 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'admin'],
+        enum: ['user', 'node', 'admin'],
         default: 'user'
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
-        minLength: 4,
+        minLength: 6,
         select: false
     },
     created: {

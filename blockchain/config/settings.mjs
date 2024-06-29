@@ -3,7 +3,7 @@
 
 export const SETTINGS = {
     MINE_RATE: 3000,
-    INIT_BALANCE: 1000000,
+    INIT_BALANCE: 1000,
     REWARD_ADDRESS: { address: 'temp'},
     MINE_REWARD: 50
 }
