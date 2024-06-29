@@ -7,7 +7,7 @@ export const getPool = (req, res, next) => {
 }
 
 export const getWallet = (req, res, next) => {
-    const holder = req.body.name
+    const holder = req.body.publicKey
     const wallet = pubnub.wallets.filter( wallet => wallet.holder === holder)[0]
     if(wallet) res.status(200).json(Response.get(null, {holder: wallet.holder, publicKey: wallet.publicKey, balance: wallet.balance}))
     else res.status(200).json(Response.error(404, 'Wallet not found...'))

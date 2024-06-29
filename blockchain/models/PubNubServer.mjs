@@ -19,6 +19,8 @@ export default class PubNubServer extends PubNub{
         this.initChain()
     }
     async initChain(){
+        console.log(this.wallets.publicKey)
+        console.log(this.wallets.balance)
         const test =  await Chain.findOne({ name: "blockchain" })
         this.blockchain.chain = test.chain
     }
