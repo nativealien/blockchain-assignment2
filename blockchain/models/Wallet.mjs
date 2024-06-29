@@ -3,8 +3,7 @@ import { ellipticHash, createHash } from "../utils/crypto-utils.mjs";
 import Transaction from "./Transaction.mjs";
 
 export default class Wallet{
-    constructor(holder){
-        this.holder = holder
+    constructor(){
         this.balance = process.MAIN_NODE === 'true' ? s.INIT_BALANCE : 0;
         this.keys = ellipticHash.genKeyPair();
         this.publicKey = this.keys.getPublic('hex')
