@@ -28,6 +28,6 @@ app.use('/api/v2/crypto', cryptoRouter)
 app.all('*', handleUndefined )
 app.use( handleError )
 
-const PORT = process.env.MAIN_NODE ? process.env.MAIN_PORT : Math.floor(Math.random() * 999) + 5001;
+const PORT = process.env.MAIN_NODE === 'true' ? process.env.MAIN_PORT : Math.floor(Math.random() * 999) + 5001;
 
 app.listen(PORT, () => console.log(`Node running on port ${PORT}`.green.bgGreen) )
