@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import crypto from 'crypto'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 
@@ -24,6 +25,8 @@ const userSchema = new mongoose.Schema({
         minLength: 6,
         select: false
     },
+    resetToken: String,
+    resetTokenExpires: Date,
     created: {
         type: Date,
         default: Date.now
@@ -45,6 +48,14 @@ userSchema.methods.validatePassword = async function (password){
 
 userSchema.methods.generateToken = function() {
     return jwt.sign({id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_TTL})
+}
+
+userSchema.methods.createResetToken = function(){
+    const token = crypto.randomBytes(20).toString('hex')
+    this.resetToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+    this.resetTokenExpires = new Date(Date.now() + 10 * 60 * 1000)
+
+    return this.resetToken
 }
 
 userSchema.statics.findByEmail = function(email){
