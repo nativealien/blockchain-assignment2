@@ -9,18 +9,12 @@ import { setFolderPath } from './utils/files-utils.mjs';
 global.__appdir = setFolderPath(import.meta.url)
 
 import PubNubServer from './models/PubNubServer.mjs';
-import Blockchain from './models/Blockchain.mjs';
-import TransactionPool from './models/TransactionPool.mjs';
-import Wallet from './models/Wallet.mjs';
 import { blockRouter, chainRouter, cryptoRouter } from './routes/routes.mjs';
 import { handleError, handleUndefined, loggEvent } from './middle/handle-events.mjs';
 
 import { connectDb } from './config/mongodb.mjs';
 connectDb()
 
-const blockchain = new Blockchain()
-const pool = new TransactionPool()
-const wallet = new Wallet()
 export const pubnub = new PubNubServer(blockchain, pool, wallet)
 
 const app = express()

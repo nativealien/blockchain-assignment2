@@ -4,5 +4,9 @@ const blockchain = 'http://localhost:5001/api/v2/'
 
 export const SETTINGS = {
     getChain: blockchain + 'blockchain',
-    login: auth + 'auth/login'
+
+    login: auth + 'auth/login',
+    me: auth + 'auth/me'
 }
+
+export const chain = {}

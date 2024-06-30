@@ -1,9 +1,11 @@
 import Element from "./Element.mjs"
-import { login } from '../utils/api-utils.mjs'
+import User from "./User.mjs"
+import { login, getUser } from '../utils/api-utils.mjs'
 
 export default class Dom{
     constructor(){
         this.token = localStorage.getItem('token')
+        this.user = {}
         this.body = document.getElementsByTagName('body')[0]
         this.header = new Element({element: 'header'}).element
         this.main = new Element({element: 'main'}).element
@@ -13,10 +15,15 @@ export default class Dom{
     }
     init(){
         Element.h1(this.header, 'header-h1', 'Swooosh...')
+        if(this.token) this.loadUser()
         this.navBar(this.header)
         this.body.appendChild(this.header)
         this.body.appendChild(this.main)
         this.body.appendChild(this.footer)
+    }
+    async loadUser(){
+        const user = await getUser()
+        this.user = user.data
     }
 
     navBar(parent){
@@ -41,9 +48,13 @@ export default class Dom{
     }
 
     accountPage(parent){
+        console.log(this.user)
         parent.innerHTML = ''
         const section =         Element.section(parent, 'user-section')
         Element.h2(section, 'user-h2', 'Account')
+        Element.h2(section, 'user-name', this.user.name)
+        Element.h2(section, 'user-email', this.user.email)
+        Element.h2(section, 'user-role', this.user.role)
     }
 
     loginPage(parent){
@@ -54,11 +65,8 @@ export default class Dom{
         const email = Element.input(form, 'login-email', 'Enter email', 'email')
         const password = Element.input(form, 'login-password', 'Enter password', 'password')
         Element.button(form, 'login-button', 'Login', 'click', async e => {
-            e.preventDefault()
-            const result = await login({ email: email.value, password: password.value })
-            localStorage.setItem('token', `Bearer ${await result.token}`)
-            location.reload()
-        })
+            console.log(email, password)
+            await login(email.value, password.value)})
         Element.a(section, 'login-signup', 'or signup here', '#', 'click', e => this.signupPage(this.main) )
     }
 
@@ -78,6 +86,7 @@ export default class Dom{
         Element.input(form, 'login-email', 'Enter email', 'email')
         Element.input(form, 'login-password', 'Enter password', 'password')
         Element.button(form, 'login-button', 'Login', 'click', e => {
+            e.preventDefault()
             console.log('SIGNUP')
         })
         Element.a(section, 'login-signup', 'or login here', '#', 'click', e => this.loginPage(this.main) )

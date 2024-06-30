@@ -1,21 +1,28 @@
 import { SETTINGS as s } from "../settings/settings.mjs"
 
-const fetchData = async (url, method = 'GET', body = null, token = null) => {
+const fetchData = async (url, method = 'GET', body = null) => {
+    const token = localStorage.getItem('token')
     const headers = { 'Content-Type': 'application/json' }
-    if(token) headers['Authorization'] = `Bearer ${token}`
+    if(token) headers['Authorization'] = token
 
-    const response = await fetch(url, {
-        method,
-        headers,
-        body: body ? JSON.stringify(body) : null
-    })
-
-    if(!response.ok){
-        const error = await response.json();
-        throw new Error(error.message || 'An error has occured...')
+    try {
+        const response = await fetch(url, {
+            method,
+            headers,
+            body: body ? JSON.stringify(body) : null
+        })
+        if(!response.ok){
+            const error = await response.json();
+            throw new Error(error.message || 'An error has occured...')
+        }
+    
+        return response.json()
+    } catch (error) {
+        console.log(error)
+        return 'Bad connection...'
     }
+   
 
-    return response.json()
 }
 
 export const getBlockchain = async () => {
@@ -23,6 +30,16 @@ export const getBlockchain = async () => {
     return chain
 }
 
-export const login = async (body) => {
-    return await fetchData(s.login, 'POST', body)
+export const login = async (email, password) => {
+    console.log('AUTH', email, password)
+    const result = await fetchData(s.login, 'POST', {email: email, password: password})
+    if(result.data){
+        localStorage.setItem('token', `Bearer ${await result.data.token}`)
+        location.reload()
+    }else console.log(result)
 }
+
+export const getUser = async () => {
+    return await fetchData(s.me, 'GET')
+}
+

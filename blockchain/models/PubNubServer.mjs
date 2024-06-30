@@ -6,7 +6,7 @@ import Chain from './Schema/ChainSchema.mjs'
 import { CHANNELS, SETTINGS as s } from '../config/settings.mjs'
 
 export default class PubNubServer extends PubNub{
-    constructor(blockchain, pool, wallet){
+    constructor(){
         super({
             publishKey: process.env.PUBLISH_KEY,
             subscribeKey: process.env.SUBSCRIBE_KEY,

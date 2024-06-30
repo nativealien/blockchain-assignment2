@@ -81,11 +81,11 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
 
 export const getMe = asyncHandler( async (req, res, next) => {
     const user = await User.findById(req.user._id)
-    res.status(200).json(Response.get(null, user))
+    res.status(200).json(Response.get(null, { name: user.name, email: user.email, role: user.role }))
 })
 
 const createAndSendToken = (user, statusCode, res) => {
     const token = user.generateToken();
-    res.status(statusCode).json(new Response({statusCode: statusCode, data: token}))
+    res.status(statusCode).json(new Response({statusCode: statusCode, data: {token: token, user: user } }))
 }
 
