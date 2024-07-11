@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { login } from "../../service/usersApi"
 
 const Login = ({setLogin, setLogged}) => {
     const [formdata, setFormdata] = useState({
@@ -9,12 +10,15 @@ const Login = ({setLogin, setLogged}) => {
     const handleChange = e => {
         const { type, value } = e.target
         setFormdata(preState => ({ ...preState, [type]: value }))
+        console.log(formdata)
     }
 
-    const handleClick = e => {
+    const handleClick = async e => {
         e.preventDefault()
+        
         console.log(formdata)
-        localStorage.setItem('logged', true)
+        const result = await login(formdata)
+        console.log(result)
     }
 
     return <div className="login">
