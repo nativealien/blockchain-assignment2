@@ -52,9 +52,8 @@ userSchema.methods.generateToken = function() {
 
 userSchema.methods.createResetToken = function(){
     const token = crypto.randomBytes(20).toString('hex')
-    this.resetToken = crypto.createHash('sha256').update(resetToken).digest('hex')
+    this.resetToken = crypto.createHash('sha256').update(token).digest('hex')
     this.resetTokenExpires = new Date(Date.now() + 10 * 60 * 1000)
-
     return this.resetToken
 }
 
