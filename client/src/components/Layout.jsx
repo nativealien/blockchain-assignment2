@@ -1,14 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
 import Footer from "./Footer/Footer";
 
 const Layout = () => {
-    const [logged, setLogged] = useState(false)
+    const [logged, setLogged] = useState(localStorage.getItem('token') ? true : false)
+    // useEffect(() => {
+
+    // })
+
+    const toggleLogged = () => {
+      setLogged(!logged)
+    }
+
+    console.log(logged)
 
   return <div className="app">
             <Header />
-            <Main logged={logged} setLogged={setLogged} />
+            <Main toggle={toggleLogged} />
             <Footer />
         </div>
   

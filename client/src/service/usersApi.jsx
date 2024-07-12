@@ -23,21 +23,21 @@ const fetchData = async (url, method = 'GET', body = null) => {
         console.log(error)
         return 'Bad connection...'
     }
-   
-
 }
 
 export const login = async (data) => {
     console.log('Login', data)
     const result = await fetchData(address + '/login', 'POST', data)
     if(result.data){
+        const { _id, name, email, role } = result.data.user
         localStorage.setItem('token', `Bearer ${await result.data.token}`)
-        return 'Successfully logged in!'
-    }else return result.message
+        localStorage.setItem('user', JSON.stringify({id: _id, name: name, email: email, role: role}))
+        return true
+    }else return false
 }
 
-export const register = async (name, email, password, role) => {
-    const result = await fetchData(address + '/register', 'POST', {name: name, email: email, password: password, role: role})
+export const register = async (data) => { // name, email, address, password, role
+    const result = await fetchData(address + '/register', 'POST', data)
     if(result.data){
         localStorage.setItem('token', `Bearer ${await result.data.token}`)
         return {data: `User ${result.data.user.name} successfully registerd! \n Press any on screen to continue.`}

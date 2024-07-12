@@ -15,7 +15,7 @@ import { handleError, handleUndefined, loggEvent } from './middle/handle-events.
 import { connectDb } from './config/mongodb.mjs';
 connectDb()
 
-export const pubnub = new PubNubServer(blockchain, pool, wallet)
+export const pubnub = new PubNubServer()
 
 const app = express()
 

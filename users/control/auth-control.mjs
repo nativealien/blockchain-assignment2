@@ -3,8 +3,8 @@ import Response from "../models/Response.mjs";
 import User from "../models/schema/UserSchema.mjs";
 
 export const register = asyncHandler( async (req, res, next) => {
-    const { name, email, password, role } = req.body
-    const user = await User({name, email, password, role})
+    const { name, email, address, password, role } = req.body
+    const user = await User({name, email, address, password, role})
 
     user.save()
 
@@ -12,6 +12,7 @@ export const register = asyncHandler( async (req, res, next) => {
 })
 
 export const login = asyncHandler( async (req, res, next) => {
+    console.log(req.body)
     const { email, password } = req.body
     if(!email || !password) return next(new Error('Email or password missing...'))
 

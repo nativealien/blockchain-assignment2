@@ -1,11 +1,13 @@
 import { useState } from "react"
-import { login } from "../../service/usersApi"
+import { login } from "../../../service/usersApi"
 
-const Login = ({setLogin, setLogged}) => {
+const Login = ({change}) => {
     const [formdata, setFormdata] = useState({
         email: '',
         password: ''
     })
+
+    const logged = localStorage.getItem('token') ? true : false
 
     const handleChange = e => {
         const { type, value } = e.target
@@ -15,20 +17,20 @@ const Login = ({setLogin, setLogged}) => {
 
     const handleClick = async e => {
         e.preventDefault()
-        
-        console.log(formdata)
         const result = await login(formdata)
-        console.log(result)
+        if(result){
+            location.reload()
+        }
     }
 
-    return <div className="login">
+    return <div className="login" style={logged ? {display: "none"} : {display: "block"}}>
         <h2>Login</h2>
         <form>
             <input type="email" value={formdata.email} placeholder="email" onChange={handleChange} />
             <input type="password" value={formdata.password} placeholder="password" onChange={handleChange} />
             <input type="submit" value="Login" onClick={handleClick} />
         </form>
-        <p>or <a href="#" onClick={setLogin}>signup</a></p>
+        <p>or <a href="#" onClick={change}>signup</a></p>
     </div>
 }
 

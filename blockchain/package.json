@@ -8,7 +8,7 @@
     "test:ui": "vitest --ui",
     "dev": "nodemon server.mjs",
     "node-1": "MAIN_NODE=false nodemon server.mjs 5002 http://localhost:5002",
-    "node-2": "nodemon server.mjs 5003 http://localhost:5003"
+    "node-2": "MAIN_NODE=false nodemon server.mjs 5003 http://localhost:5003"
   },
   "keywords": [],
   "author": "Oskar Assarsson",

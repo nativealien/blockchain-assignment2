@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
         unique: true,
         match: [ /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Enter correct symbol standard...']
     },
+    address: {
+        type: String,
+        required: [true, 'Node address is required'],
+        unique: true,
+    },
     role: {
         type: String,
         enum: ['user', 'node', 'admin'],

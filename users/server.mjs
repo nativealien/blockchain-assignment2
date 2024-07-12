@@ -22,7 +22,7 @@ app.use(morgan('dev'))
 
 app.use('/api/v1/auth', authRouter)
 
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 4001
 
 const server = app.listen(PORT, () => console.log(`Server listens to port ${PORT}`.yellow))
 
