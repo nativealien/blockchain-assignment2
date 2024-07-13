@@ -1,29 +1,7 @@
+import { fetchData } from "./fetchInstance"
+import { getChain } from "./blockchainApi"
+
 const address = 'http://localhost:4001/api/v1/auth'
-
-const fetchData = async (url, method = 'GET', body = null) => {
-    const token = localStorage.getItem('token')
-    const headers = { 'Content-Type': 'application/json' }
-    if(token) headers['Authorization'] = token
-
-    console.log(body)
-
-    try {
-        const response = await fetch(url, {
-            method,
-            headers,
-            body: body ? JSON.stringify(body) : null
-        })
-        if(!response.ok){
-            const error = await response.json();
-            throw new Error(error.message || 'An error has occured...')
-        }
-    
-        return response.json()
-    } catch (error) {
-        console.log(error)
-        return 'Bad connection...'
-    }
-}
 
 export const login = async (data) => {
     console.log('Login', data)
@@ -37,11 +15,13 @@ export const login = async (data) => {
 }
 
 export const register = async (data) => { // name, email, address, password, role
-    const result = await fetchData(address + '/register', 'POST', data)
-    if(result.data){
-        localStorage.setItem('token', `Bearer ${await result.data.token}`)
-        return {data: `User ${result.data.user.name} successfully registerd! \n Press any on screen to continue.`}
-    }else return result.message
+    console.log('register at client: ', data)
+    getChain(data.address)
+    // const result = await fetchData(address + '/register', 'POST', data)
+    // if(result.data){
+    //     localStorage.setItem('token', `Bearer ${await result.data.token}`)
+    //     return {data: `User ${result.data.user.name} successfully registerd! \n Press any on screen to continue.`}
+    // }else return result.message
 }
 
 export const retrievePassword = async (email) => {

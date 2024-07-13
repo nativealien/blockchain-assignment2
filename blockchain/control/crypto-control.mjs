@@ -16,9 +16,21 @@ export const sendTransaction = (req, res, next) => {
 
     const transaction = pubnub.wallet.transaction({ receiver, amount })
     const transactions = pubnub.pool.addTransaction(transaction)
-    pubnub.broadcast('Transaction', { output: transaction.output, pool: transactions } )
+
+    const length = Object.values(transactions).length
+    console.log('PRE Length', length)
+    if(length >= 2){
+        pubnub.blockchain.newBlock({data: transactions})
+        pubnub.broadcast('Blockchain', pubnub.blockchain.chain)
+    }else{
+        pubnub.broadcast('Transaction', { output: transaction.output, pool: transactions } )
+    }
 
     res.status(201).json({message: transaction})
+}
+
+export const mineTransactions = (req, res, next) => {
+    res.status(201).json(Response.get(null, {data: 'Mining complete'}))
 }
 
 export const getTransaction = (req, res, next) => {
@@ -26,6 +38,3 @@ export const getTransaction = (req, res, next) => {
 }
 
 
-export const mineTransactions = (req, res, next) => {
-    res.status(201).json(Response.get(null, {data: 'Mining complete'}))
-}

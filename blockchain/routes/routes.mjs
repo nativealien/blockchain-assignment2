@@ -1,6 +1,7 @@
 import express from 'express'
 import { mineBlock } from '../control/block-control.mjs'
 import { getChain } from '../control/chain-control.mjs'
+import { postMember } from '../control/member-control.mjs'
 import { getPool, getWallet, getTransaction, sendTransaction } from '../control/crypto-control.mjs'
 
 const blockRouter = express.Router()
@@ -15,4 +16,7 @@ cryptoRouter.post('/wallet', getWallet)
 cryptoRouter.get('/transaction:id', getTransaction)
 cryptoRouter.post('/transaction', sendTransaction)
 
-export { blockRouter, chainRouter, cryptoRouter }
+const memberRouter = express.Router()
+memberRouter.post('/new', postMember)
+
+export { blockRouter, chainRouter, cryptoRouter, memberRouter }

@@ -8,10 +8,18 @@ export default class Transaction{
         this.input = this.createInput({ sender, output: this.output })
     }
 
+    static validate(transaction){
+        const { input: { address, amount, signature }, output } = transaction
+        const outputSum = Object.values(output.amount).reduce((total, amount) => total + amount)
+
+        if(amount !== outputSum) return false
+        if(!verifySign({publicKey: address, data: output, signature})) return false
+
+        return true
+    }
+
     createOutput({sender, receiver, amount}){
         const map = {}
-        // map[receiver] = {key: receiver, amount: amount};
-        // map[sender.publicKey] = {key: sender.publicKey, balance: sender.balance - amount}
         map['receiver'] = {key: receiver, amount: amount};
         map['sender'] = {key: sender.publicKey, balance: sender.balance - amount}
         
@@ -26,15 +34,6 @@ export default class Transaction{
         }
     }
 
-    static validate(transaction){
-        const { input: { address, amount, signature }, output } = transaction
-        const outputSum = Object.values(output.amount).reduce((total, amount) => total + amount)
-
-        if(amount !== outputSum) return false
-        if(!verifySign({publicKey: address, data: output, signature})) return false
-
-        return true
-    }
     update({sender, receiver, amount}){
         if(amount > this.output[sender.publicKey]) throw new Error('Not enough funds...')
         

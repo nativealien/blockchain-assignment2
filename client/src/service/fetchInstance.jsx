@@ -1,6 +1,6 @@
 const address = 'http://localhost:4001/api/v1/auth'
 
-const fetchData = async (url, method = 'GET', body = null) => {
+export const fetchData = async (url, method = 'GET', body = null) => {
     const token = localStorage.getItem('token')
     const headers = { 'Content-Type': 'application/json' }
     if(token) headers['Authorization'] = token

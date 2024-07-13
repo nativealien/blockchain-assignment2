@@ -9,9 +9,7 @@ export default class TransactionPool{
         return this.transactions
     }
     checkTransaction({address}){
-        console.log('Check transaction')
         const check = Object.values(this.transactions)
-        console.log(check)
         return check.find( transaction => transaction.input.address === address)
     }
 }
