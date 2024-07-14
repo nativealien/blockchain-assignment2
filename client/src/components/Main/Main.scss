@@ -1,0 +1,17 @@
+
+
+.main{
+    width: 800px;
+
+    border: 2px solid blue;
+
+    form{
+        background-color: grey;
+        display: flex;
+        flex-direction: column
+    }
+}
+
+@import './Account/Account.scss';
+@import './Login/Login.scss';
+@import './Signup/Signup.scss';

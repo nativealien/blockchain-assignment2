@@ -85,6 +85,15 @@ export const getMe = asyncHandler( async (req, res, next) => {
     res.status(200).json(Response.get(null, { name: user.name, email: user.email, role: user.role }))
 })
 
+export const getAllNodes = asyncHandler( async (req, res, next) => {
+    const address = await User.find({}, 'address')
+    const addressArray = address.map( add => add.address)
+
+    console.log(addressArray)
+    res.status(200).json(Response.get(null, { nodes: addressArray}))
+
+})
+
 const createAndSendToken = (user, statusCode, res) => {
     const token = user.generateToken();
     res.status(statusCode).json(new Response({statusCode: statusCode, data: {token: token, user: user } }))

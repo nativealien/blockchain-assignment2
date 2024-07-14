@@ -3,6 +3,8 @@ import Blockchain from './Blockchain.mjs'
 import Wallet from './Wallet.mjs'
 import TransactionPool from './TransactionPool.mjs'
 import Chain from './Schema/ChainSchema.mjs'
+
+import { saveChain, savePool } from '../utils/database-utils.mjs'
 import { CHANNELS, SETTINGS as s } from '../config/settings.mjs'
 
 export default class PubNubServer extends PubNub{
@@ -26,8 +28,24 @@ export default class PubNubServer extends PubNub{
     async initChain(){
         console.log(this.wallet.publicKey)
         const test = await Chain.findOne({ name: "blockchain" })
-        this.blockchain.chain = test.chain
+        console.log(test)
+        if(test.chain.length > 0){
+            this.blockchain.chain = test.chain
+        }
     }
+
+    async makeTransaction(receiver, amount){
+        const transaction = this.wallet.transaction({receiver, amount})
+        const transactions = this.pool.addTransaction(transaction)
+        if(Object.values(this.pool.transactions).length >= 2){
+            this.blockchain.newBlock({ data: this.pool.transactions })
+            this.broadcast('Transaction', { output: transaction.output, pool: transactions } )
+            this.broadcast('Blockchain', this.blockchain.chain)
+        }else{ this.broadcast('Transaction', { output: transaction.output, pool: transactions } )}
+        await saveChain()
+        await savePool()
+    }
+    
 
     broadcast(channel, message){
         this.publish({
@@ -42,8 +60,9 @@ export default class PubNubServer extends PubNub{
                 const msg = JSON.parse(message)
                 
                 if(channel === 'Blockchain'){
-                    console.log(`Message recieved on ${channel} channel: ${message}`)
+                    // console.log(`Message recieved on ${channel} channel: ${message}`)
                     this.blockchain.updateChain(msg)
+                    this.pool.transactions = {}
                 }
                 if(channel === 'Transaction'){
                     const { output, pool } = msg

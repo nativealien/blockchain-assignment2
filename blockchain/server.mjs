@@ -9,7 +9,7 @@ import { setFolderPath } from './utils/files-utils.mjs';
 global.__appdir = setFolderPath(import.meta.url)
 
 import PubNubServer from './models/PubNubServer.mjs';
-import { blockRouter, chainRouter, cryptoRouter, memberRouter } from './routes/routes.mjs';
+import { chainRouter, cryptoRouter, memberRouter } from './routes/routes.mjs';
 import { handleError, handleUndefined, loggEvent } from './middle/handle-events.mjs';
 
 import { connectDb } from './config/mongodb.mjs';
@@ -25,7 +25,7 @@ app.use(cors())
 app.use( loggEvent )
 
 app.use('/api/v2/blockchain', chainRouter)
-app.use('/api/v2/block', blockRouter)
+// app.use('/api/v2/block', blockRouter)
 app.use('/api/v2/crypto', cryptoRouter)
 app.use('/api/v2/members', memberRouter)
 

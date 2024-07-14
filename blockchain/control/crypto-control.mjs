@@ -6,28 +6,34 @@ export const getPool = (req, res, next) => {
 }
 
 export const getWallet = (req, res, next) => {
-    const holder = req.body.publicKey
-    const wallet = pubnub.wallets.filter( wallet => wallet.holder === holder)[0]
-    if(wallet) res.status(200).json(Response.get(null, {holder: wallet.holder, publicKey: wallet.publicKey, balance: wallet.balance}))
-    else res.status(200).json(Response.error(404, 'Wallet not found...'))
+    res.status(200).json(Response.get(null, { key: pubnub.wallet.publicKey, balance: pubnub.wallet.balance}))
 }
+
 export const sendTransaction = (req, res, next) => {
-    const { receiver, amount } = req.body
-
-    const transaction = pubnub.wallet.transaction({ receiver, amount })
-    const transactions = pubnub.pool.addTransaction(transaction)
-
-    const length = Object.values(transactions).length
-    console.log('PRE Length', length)
-    if(length >= 2){
-        pubnub.blockchain.newBlock({data: transactions})
-        pubnub.broadcast('Blockchain', pubnub.blockchain.chain)
-    }else{
-        pubnub.broadcast('Transaction', { output: transaction.output, pool: transactions } )
-    }
-
-    res.status(201).json({message: transaction})
+    const { receiver, amount } = req.body 
+    
+    const test = pubnub.makeTransaction(receiver, amount)
+    
+    res.status(201).json(Response.post(null, {}))
+    // const transaction = pubnub.wallet.transaction({receiver, amount})
+    // const transactions = pubnub.pool.addTransaction(transaction)
 }
+
+//     const transaction = pubnub.wallet.transaction({ receiver, amount })
+//     const transactions = pubnub.pool.addTransaction(transaction)
+
+//     const length = Object.values(transactions).length
+//     console.log('PRE Length', length)
+//     if(length >= 2){
+//         pubnub.blockchain.newBlock({data: transactions})
+//         pubnub.broadcast('Blockchain', pubnub.blockchain.chain)
+//         pubnub.transactions = {}
+//     }else{
+//         pubnub.broadcast('Transaction', { output: transaction.output, pool: transactions } )
+//     }
+
+//     res.status(201).json({message: transaction})
+// }
 
 export const mineTransactions = (req, res, next) => {
     res.status(201).json(Response.get(null, {data: 'Mining complete'}))

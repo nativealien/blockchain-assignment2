@@ -20,9 +20,10 @@ const Signup = ({toggle, change}) => {
 
     const handleClick = async e => {
         e.preventDefault()
-        console.log('KLICK', formdata)
         const result = await register(formdata)
-        console.log(result)
+        if(result){
+            location.reload()
+        }
     }
 
     return <div className="signup" style={logged ? {display: "none"} : {display: "block"}}>

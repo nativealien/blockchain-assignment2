@@ -9,6 +9,10 @@ const chainSchema = new mongoose.Schema({
     chain: { 
         type: Array, 
         required: [true, 'Chain is required']
+    },
+    pool: { 
+        type: Array, 
+        required: [true, 'Chain is required']
     }
 })
 

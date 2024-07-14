@@ -10,7 +10,7 @@ const Main = () => {
         setChange(!change)
     }
 
-    return <main>
+    return <main className="main">
         {change ? (<Login change={toggleChange} />) : (<Signup change={toggleChange} />)}
         <Account />
     </main>

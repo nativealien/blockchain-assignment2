@@ -1,29 +1,69 @@
-
+import { useState, useEffect } from "react";
+import { getWallet } from "../../../service/blockchainApi";
+import Transaction from "./Transaction";
 
 const Account = () => {
-    const logged = localStorage.getItem('token') ? true : false
-    const user = JSON.parse(localStorage.getItem('user'))
+    const [user, setUser] = useState(null);
+    const [wallet, setWallet] = useState(null);
 
-    
+    useEffect(() => {
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        setUser(storedUser);
+
+        const loadWallet = async (userAddress) => {
+            try {
+                const wallet = await getWallet(userAddress);
+                console.log(wallet);
+                setWallet(wallet);
+            } catch (error) {
+                console.error("Error loading wallet:", error);
+            }
+        };
+
+        if (storedUser && storedUser.address) {
+            loadWallet(storedUser.address);
+        }
+    }, []);
+
+    const logged = localStorage.getItem('token') ? true : false;
+
+    const reloadWallet = async () => {
+        if (user && user.address) {
+            try {
+                const wallet = await getWallet(user.address);
+                console.log(wallet);
+                setWallet(wallet);
+            } catch (error) {
+                console.error("Error reloading wallet:", error);
+            }
+        }
+    };
+
     const handleLogout = () => {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        location.reload()
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        location.reload();
+    };
+
+    if (user && wallet) {
+        return (
+            <div className="account" style={logged ? { display: "block" } : { display: "none" }}>
+                <h2>Account</h2>
+                <p>Name: {user.name}</p>
+                <p>Email: {user.email}</p>
+                <p>Node: {user.address}</p>
+                <p>Role: {user.role}</p>
+                <p>Wallet: {wallet.key}</p>
+                <p>Balance: {wallet.balance}</p>
+
+                <Transaction user={user} wallet={wallet} onTransaction={reloadWallet} />
+
+                <button onClick={handleLogout}>Logout</button>
+            </div>
+        );
+    } else {
+        return <></>;
     }
+};
 
-    if(logged){
-        const user = JSON.parse(localStorage.getItem('user'))
-        return <div className="account" style={logged ? {display: "block"} : {display: "none"}}>
-            <h2>Account</h2>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Role: {user.role}</p>
-
-            <button onClick={handleLogout}>Logout</button>
-        </div>
-    }else{
-        return <></>
-    }
-}
-
-export default Account
+export default Account;

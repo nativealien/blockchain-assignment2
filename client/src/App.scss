@@ -1,0 +1,12 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.app{
+  border: 2px solid grey;
+}
+
+@import './components/Header/Header.scss';
+@import './components/Main/Main.scss';
+@import './components/Footer/Footer.scss';
