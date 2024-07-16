@@ -5,8 +5,6 @@ export const fetchData = async (url, method = 'GET', body = null) => {
     const headers = { 'Content-Type': 'application/json' }
     if(token) headers['Authorization'] = token
 
-    console.log(body)
-
     try {
         const response = await fetch(url, {
             method,

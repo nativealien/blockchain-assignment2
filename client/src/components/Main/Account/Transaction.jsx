@@ -38,8 +38,8 @@ const Transaction = ({user, wallet, onTransaction}) => {
     }
 
     return <form>
-        <select name="node" onChange={handleChange}>
-            <option value="" disabled selected>Select a user</option>
+        <select name="node" defaultValue="" onChange={handleChange}>
+            <option value="" disabled>Select user</option>
             {nodes.map(node => {
                 return <option name='node' key={node}>{node}</option>
             })}

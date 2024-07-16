@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import { getWallet } from "../../../service/blockchainApi";
+import { getChain, getWallet } from "../../../service/blockchainApi";
 import Transaction from "./Transaction";
+import Chain from "./Chain";
 
 const Account = () => {
     const [user, setUser] = useState(null);
+    const [chain, setChain] = useState(null);
     const [wallet, setWallet] = useState(null);
 
     useEffect(() => {
@@ -13,8 +15,9 @@ const Account = () => {
         const loadWallet = async (userAddress) => {
             try {
                 const wallet = await getWallet(userAddress);
-                console.log(wallet);
+                const chain = await getChain(userAddress)
                 setWallet(wallet);
+                setChain(chain);
             } catch (error) {
                 console.error("Error loading wallet:", error);
             }
@@ -46,6 +49,7 @@ const Account = () => {
     };
 
     if (user && wallet) {
+        console.log(chain)
         return (
             <div className="account" style={logged ? { display: "block" } : { display: "none" }}>
                 <h2>Account</h2>
@@ -59,6 +63,9 @@ const Account = () => {
                 <Transaction user={user} wallet={wallet} onTransaction={reloadWallet} />
 
                 <button onClick={handleLogout}>Logout</button>
+
+                <Chain chain={chain} />
+
             </div>
         );
     } else {

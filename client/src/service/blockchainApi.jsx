@@ -6,11 +6,9 @@ const crypto = '/api/v2/crypto'
 
 export const getChain = async (address) => {
     const url = address + chain
-    console.log('getChain: ', url)
     const result = await fetchData(url, 'GET')
     if(result.data){
-        console.log(result.data)
-        return true
+        return result.data
     }else return false
 }
 

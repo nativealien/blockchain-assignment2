@@ -11,29 +11,11 @@ export const getWallet = (req, res, next) => {
 
 export const sendTransaction = (req, res, next) => {
     const { receiver, amount } = req.body 
-    
     const test = pubnub.makeTransaction(receiver, amount)
-    
     res.status(201).json(Response.post(null, {}))
-    // const transaction = pubnub.wallet.transaction({receiver, amount})
-    // const transactions = pubnub.pool.addTransaction(transaction)
 }
 
-//     const transaction = pubnub.wallet.transaction({ receiver, amount })
-//     const transactions = pubnub.pool.addTransaction(transaction)
 
-//     const length = Object.values(transactions).length
-//     console.log('PRE Length', length)
-//     if(length >= 2){
-//         pubnub.blockchain.newBlock({data: transactions})
-//         pubnub.broadcast('Blockchain', pubnub.blockchain.chain)
-//         pubnub.transactions = {}
-//     }else{
-//         pubnub.broadcast('Transaction', { output: transaction.output, pool: transactions } )
-//     }
-
-//     res.status(201).json({message: transaction})
-// }
 
 export const mineTransactions = (req, res, next) => {
     res.status(201).json(Response.get(null, {data: 'Mining complete'}))

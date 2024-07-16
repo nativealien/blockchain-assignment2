@@ -10,11 +10,9 @@ export default class Transaction{
 
     static validate(transaction){
         const { input: { address, amount, signature }, output } = transaction
-        const outputSum = Object.values(output.amount).reduce((total, amount) => total + amount)
-
-        if(amount !== outputSum) return false
+        
         if(!verifySign({publicKey: address, data: output, signature})) return false
-
+        
         return true
     }
 

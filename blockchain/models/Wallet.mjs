@@ -9,13 +9,6 @@ export default class Wallet{
         this.publicKey = this.keys.getPublic('hex')
     }
 
-    // static getBalance({chain, publicKey}){
-
-    //     for(let i = chain.lengh-1; i > 0; i--){
-    //         const { tr}
-    //     }
-    // }
-
     transaction({ receiver, amount }){
         if(amount < this.balance){
             this.balance = this.balance - amount

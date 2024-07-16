@@ -4,8 +4,9 @@ import Wallet from './Wallet.mjs'
 import TransactionPool from './TransactionPool.mjs'
 import Chain from './Schema/ChainSchema.mjs'
 
-import { saveChain, savePool } from '../utils/database-utils.mjs'
+import { saveChain, saveTransaction } from '../utils/database-utils.mjs'
 import { CHANNELS, SETTINGS as s } from '../config/settings.mjs'
+import Transaction from './Transaction.mjs'
 
 export default class PubNubServer extends PubNub{
     constructor(){
@@ -28,7 +29,6 @@ export default class PubNubServer extends PubNub{
     async initChain(){
         console.log(this.wallet.publicKey)
         const test = await Chain.findOne({ name: "blockchain" })
-        console.log(test)
         if(test.chain.length > 0){
             this.blockchain.chain = test.chain
         }
@@ -36,16 +36,23 @@ export default class PubNubServer extends PubNub{
 
     async makeTransaction(receiver, amount){
         const transaction = this.wallet.transaction({receiver, amount})
-        const transactions = this.pool.addTransaction(transaction)
-        if(Object.values(this.pool.transactions).length >= 2){
-            this.blockchain.newBlock({ data: this.pool.transactions })
-            this.broadcast('Transaction', { output: transaction.output, pool: transactions } )
-            this.broadcast('Blockchain', this.blockchain.chain)
-        }else{ this.broadcast('Transaction', { output: transaction.output, pool: transactions } )}
-        await saveChain()
-        await savePool()
+        const validate = Transaction.validate(transaction)
+        if(validate){
+            // const transactions = this.pool.addTransaction(transaction)
+            if(Object.values(this.pool.transactions).length >= 2){
+                const block = this.blockchain.newBlock({ data: this.pool.transactions })
+                this.broadcast('Transaction', transaction )
+                this.broadcast('Blockchain', block)
+                await saveChain(block)
+                await saveTransaction(transaction)
+            }else{ 
+                this.broadcast('Transaction', transaction )
+                await saveTransaction(transaction)
+            }
+        }else{
+            console.log('makeTransaction: Transaction not valid')
+        }
     }
-    
 
     broadcast(channel, message){
         this.publish({
@@ -60,22 +67,29 @@ export default class PubNubServer extends PubNub{
                 const msg = JSON.parse(message)
                 
                 if(channel === 'Blockchain'){
-                    // console.log(`Message recieved on ${channel} channel: ${message}`)
-                    this.blockchain.updateChain(msg)
-                    this.pool.transactions = {}
+                    console.log('Blockchain Msg: ', msg)
+                    // this.blockchain.chain.push(msg)
                 }
+                //     console.log('BLOKCHAIN MSG')
+                //     console.log(`Message recieved on ${channel} channel: ${message}`)
+                //     this.blockchain.updateChain(msg)
+                //     this.pool.transactions = {}
+                // }
                 if(channel === 'Transaction'){
-                    const { output, pool } = msg
-
-                    if(output.receiver.key === this.wallet.publicKey){
-                        this.wallet.balance = this.wallet.balance + output.receiver.amount
-                    }
-                    if(output.sender.key !== this.wallet.publicKey){
-                        this.pool.transactions = pool
-                    }
-
-                    console.log(this.wallet.balance)
+                    const { input, output } = msg
+                    console.log('Transaction Msg: ', input)
                 }
+                //     console.log('TRANSACTION MSG')
+                    
+                //     if(receiver.key === this.wallet.publicKey){
+                //         this.wallet.balance = this.wallet.balance + +receiver.amount
+                //     }else{
+                //             this.pool.transactions = pool
+
+                //     }
+                   
+                //     console.log(this.wallet.balance)
+                // }
             }
         }
     }
