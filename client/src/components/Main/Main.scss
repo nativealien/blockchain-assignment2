@@ -1,20 +1,26 @@
-
-
 .main{
     width: 600px;
-
-    border: 2px solid rgb(91, 91, 163);
+    height: 100%;
+    margin: auto;
+    padding: 20px;
+    background-color: rgb(232, 232, 232);
 
     form{
-        width: 200px;
+        width: 400px;
+        margin: auto;
+        padding: 10px;
 
-        border: 4px solid rgb(145, 93, 56);
+        border: 4px solid rgba(35, 59, 94, 0.175);
         border-radius: 5px;
         display: flex;
         flex-direction: column;
 
         input, select, option{
+            height: 30px;
             border: 0.5px solid grey;
+
+            font-size: 1.3rem;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
     }
