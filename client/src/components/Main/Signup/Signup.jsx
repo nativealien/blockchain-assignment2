@@ -27,8 +27,8 @@ const Signup = ({toggle, change}) => {
     }
 
     return <div className="signup" style={logged ? {display: "none"} : {display: "block"}}>
-        <h2>Signup</h2>
         <form>
+            <h2>Signup</h2>
             <input type="text" name="name" value={formdata.name} placeholder="Username" onChange={handleChange} />
             <input type="email" name="email" value={formdata.email} placeholder="Email" onChange={handleChange} />
             <input type="text" name="address" value={formdata.address} placeholder="Node address" onChange={handleChange} />

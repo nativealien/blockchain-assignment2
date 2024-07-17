@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { getChain, getWallet } from "../../../service/blockchainApi";
 import Transaction from "./Transaction";
 import Chain from "./Chain";
+import User from "./User";
 
 const Account = () => {
     const [user, setUser] = useState(null);
@@ -31,11 +32,13 @@ const Account = () => {
     const logged = localStorage.getItem('token') ? true : false;
 
     const reloadWallet = async () => {
+        console.log('reloadWallet', user && user.address)
         if (user && user.address) {
             try {
                 const wallet = await getWallet(user.address);
-                console.log(wallet);
+                const chain = await getChain(user.address)
                 setWallet(wallet);
+                setChain(chain);
             } catch (error) {
                 console.error("Error reloading wallet:", error);
             }
@@ -49,20 +52,15 @@ const Account = () => {
     };
 
     if (user && wallet) {
-        console.log(chain)
+        const walletString = `${wallet.key.slice(0,4)}...${wallet.key.slice(-4)}`
         return (
             <div className="account" style={logged ? { display: "block" } : { display: "none" }}>
-                <h2>Account</h2>
-                <p>Name: {user.name}</p>
-                <p>Email: {user.email}</p>
-                <p>Node: {user.address}</p>
-                <p>Role: {user.role}</p>
-                <p>Wallet: {wallet.key}</p>
-                <p>Balance: {wallet.balance}</p>
+                
+                {/* <button onClick={handleLogout}>Logout</button> */}
+
+                <User user={user} loggOut={handleLogout} />
 
                 <Transaction user={user} wallet={wallet} onTransaction={reloadWallet} />
-
-                <button onClick={handleLogout}>Logout</button>
 
                 <Chain chain={chain} />
 

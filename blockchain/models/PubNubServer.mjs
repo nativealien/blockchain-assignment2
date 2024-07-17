@@ -36,15 +36,22 @@ export default class PubNubServer extends PubNub{
 
     async makeTransaction(receiver, amount){
         const transaction = this.wallet.transaction({receiver, amount})
+        this.pool.addTransaction(transaction)
+
         const validate = Transaction.validate(transaction)
+        const length = Object.values(this.pool.transactions).length 
+
+        console.log('makeTransaction: ', validate, length)
         if(validate){
-            // const transactions = this.pool.addTransaction(transaction)
-            if(Object.values(this.pool.transactions).length >= 2){
+
+            if(length >= 2){
+                console.log('POOL FULL'.bgRed)
                 const block = this.blockchain.newBlock({ data: this.pool.transactions })
-                this.broadcast('Transaction', transaction )
-                this.broadcast('Blockchain', block)
                 await saveChain(block)
                 await saveTransaction(transaction)
+                this.broadcast('Transaction', transaction )
+                this.broadcast('Blockchain', block)
+                console.log('Block mined: '.bgGreen, block)
             }else{ 
                 this.broadcast('Transaction', transaction )
                 await saveTransaction(transaction)
@@ -67,29 +74,18 @@ export default class PubNubServer extends PubNub{
                 const msg = JSON.parse(message)
                 
                 if(channel === 'Blockchain'){
-                    console.log('Blockchain Msg: ', msg)
-                    // this.blockchain.chain.push(msg)
+                    this.blockchain.chain.push(msg)
+                    this.pool.transactions = {}
                 }
-                //     console.log('BLOKCHAIN MSG')
-                //     console.log(`Message recieved on ${channel} channel: ${message}`)
-                //     this.blockchain.updateChain(msg)
-                //     this.pool.transactions = {}
-                // }
+             
                 if(channel === 'Transaction'){
                     const { input, output } = msg
-                    console.log('Transaction Msg: ', input)
+                    console.log('Transaction Msg: ', this.wallet.balance, +output.receiver.amount)
+                    if(output.receiver.key === this.wallet.publicKey){
+                        this.wallet.balance = this.wallet.balance + +output.receiver.amount
+                    }
+                    console.log('Balance: ', this.wallet.balance)
                 }
-                //     console.log('TRANSACTION MSG')
-                    
-                //     if(receiver.key === this.wallet.publicKey){
-                //         this.wallet.balance = this.wallet.balance + +receiver.amount
-                //     }else{
-                //             this.pool.transactions = pool
-
-                //     }
-                   
-                //     console.log(this.wallet.balance)
-                // }
             }
         }
     }

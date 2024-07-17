@@ -24,8 +24,8 @@ const Login = ({change}) => {
     }
 
     return <div className="login" style={logged ? {display: "none"} : {display: "block"}}>
-        <h2>Login</h2>
         <form>
+            <h2>Login</h2>
             <input type="email" value={formdata.email} placeholder="email" onChange={handleChange} />
             <input type="password" value={formdata.password} placeholder="password" onChange={handleChange} />
             <input type="submit" value="Login" onClick={handleClick} />

@@ -28,16 +28,12 @@ const Transaction = ({user, wallet, onTransaction}) => {
         e.preventDefault()
 
         const receivingWallet = await getWallet(formdata.node)
-
-        console.log(receivingWallet)
-
         const transaction = await sendTransaction(user.address, receivingWallet.key, formdata.amount)
-
         onTransaction()
-        console.log(transaction)
     }
 
     return <form>
+        <p>Balance: {wallet.balance}</p>
         <select name="node" defaultValue="" onChange={handleChange}>
             <option value="" disabled>Select user</option>
             {nodes.map(node => {
