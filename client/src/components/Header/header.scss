@@ -2,10 +2,16 @@
     margin: 0;
     padding: 5px;
     padding-left: 20px;
+    display: flex;
+    align-items: center;
     background-color: rgb(178, 211, 252);
 
     h1{
         margin: 0;
         font-family:'Courier New', Courier, monospace;
+    }
+    button{
+        height: 30px;
+        margin-left: 20px;
     }
 }

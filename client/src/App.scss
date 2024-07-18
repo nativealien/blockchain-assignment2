@@ -9,13 +9,5 @@ body{
   margin: 0;
 }
 
-.app{
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  position: relative;
-}
-
-@import './components/Header/Header.scss';
-@import './components/Main/Main.scss';
-@import './components/Footer/Footer.scss';
+@import './content/styles.scss';
+@import './components/layout.scss';

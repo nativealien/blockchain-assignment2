@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { login } from "../../../service/usersApi"
 
-const Login = ({change}) => {
+const Login = ({change, reload}) => {
     const [formdata, setFormdata] = useState({
         email: '',
         password: ''
@@ -12,7 +12,6 @@ const Login = ({change}) => {
     const handleChange = e => {
         const { type, value } = e.target
         setFormdata(preState => ({ ...preState, [type]: value }))
-        console.log(formdata)
     }
 
     const handleClick = async e => {
