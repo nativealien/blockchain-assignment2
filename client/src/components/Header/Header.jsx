@@ -8,7 +8,7 @@ const Header = ({logout}) => {
     }
 
     return <header className="header">
-        <h1>Swoosh</h1>
+        <h1>Swosh</h1>
         {logged ? (<button onClick={handleClick}>Logout</button>) : (<></>)}
     </header>
 }

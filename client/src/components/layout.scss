@@ -4,6 +4,10 @@
     height: 100%;
     margin: 0;
     position: relative;
+
+    button{
+        cursor: pointer;
+    }
 }
 
 @import './Header/header.scss';

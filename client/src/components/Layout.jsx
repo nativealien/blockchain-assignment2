@@ -14,6 +14,7 @@ const Layout = () => {
 
       const loadLogged = async (userAddress) => {
           try {
+            console.log('TEST', userAddress)
               const wallet = await getWallet(userAddress);
               const chain = await getChain(userAddress)
               setWallet(wallet);
@@ -23,10 +24,20 @@ const Layout = () => {
           }
       };
 
+      const loadChain = async () => {
+        try {
+            const chain = await getChain('http://localhost:5001')
+            setChain(chain);
+            console.log(chain)
+        } catch (error) {
+            
+        }
+      }
+
       if (storedUser && storedUser.address) {
           loadLogged(storedUser.address);
       }else{
-
+        loadChain()
       }
   }, [])
 

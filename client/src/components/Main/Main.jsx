@@ -1,6 +1,8 @@
 import Login from "./Login/Login"
 import Signup from './Signup/Signup'
 import Account from './Account/Account'
+import Explorer from "../Explorer/Explorer"
+
 import { useState } from "react"
 
 const Main = ({user, chain, wallet, reload}) => {
@@ -14,6 +16,7 @@ const Main = ({user, chain, wallet, reload}) => {
     return <main className="main">
         {change ? (<Login change={toggleChange} reload={reload} />) : (<Signup change={toggleChange} />)}
         <Account user={user} chain={chain} wallet={wallet} reload={reload} />
+        <Explorer chain={chain}/>
     </main>
     
 }

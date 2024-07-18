@@ -15,8 +15,9 @@
     }
 
     .wallet-info{
+        border-bottom: 0.5px solid grey;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         p{
             height: 30px;
             padding: 0;
