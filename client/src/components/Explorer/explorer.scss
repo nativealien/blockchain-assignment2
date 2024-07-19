@@ -1,0 +1,18 @@
+
+.explorer{
+    width: 500px;
+    margin: auto;
+    padding: 10px;
+
+    border: 4px solid rgba(35, 59, 94, 0.175);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    h2{
+        text-align: center;
+        color: goldenrod;
+    }
+}
+
+@import './block.scss'
