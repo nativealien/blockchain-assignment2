@@ -14,7 +14,9 @@ export default class Wallet{
             this.balance = this.balance - amount
             return new Transaction({ sender: this, receiver, amount })
         }
-        else return 'Unsuficient funds...'
+        else {
+            throw new Error('Insufficient funds...')
+        }
     }
     sign(data){
         return this.keys.sign(createHash(data))

@@ -25,7 +25,6 @@ app.use(cors())
 app.use( loggEvent )
 
 app.use('/api/v2/blockchain', chainRouter)
-// app.use('/api/v2/block', blockRouter)
 app.use('/api/v2/crypto', cryptoRouter)
 app.use('/api/v2/members', memberRouter)
 

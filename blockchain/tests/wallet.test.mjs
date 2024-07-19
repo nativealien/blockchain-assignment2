@@ -47,7 +47,7 @@ describe('Wallet', () => {
             it('exists', () => 
                 expect(typeof wallet.transaction).toBe('function'))
             it('if unsuficient funds throws error', () => {
-                expect(() => wallet.transaction({amount: 200, receiver: 'Jultomten'})).toThrow('You are poor...')
+                expect(() => wallet.transaction({amount: 2000, receiver: 'Jultomten'})).toThrow('Insufficient funds...')
             })
             describe('if transaction is valid', () => {
                 let transaction, amount, receiver;
@@ -61,7 +61,7 @@ describe('Wallet', () => {
                 it('should match wallet input', () => 
                     expect(transaction.input.address).toEqual(wallet.publicKey))
                 it('should output the amount to receiver', () => 
-                    expect(transaction.output[receiver]).toEqual(amount));
+                    expect(transaction.output.receiver.amount).toEqual(amount));
             })
         })
     })

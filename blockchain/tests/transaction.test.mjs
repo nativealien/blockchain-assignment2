@@ -23,10 +23,10 @@ describe("Transaction", () => {
         expect(transaction).toHaveProperty("input"));
       it("as type object", () =>
         expect(transaction.output).toBeTypeOf("object"));
-      it("displays recievers balance", () =>
-        expect(transaction.output[receiver]).toEqual(amount));
+      it("displays recievers balance", () => 
+        expect(transaction.output.receiver.amount).toEqual(amount));
       it("displays sender balance", () =>
-        expect(transaction.output[sender.publicKey]).toEqual(
+        expect(transaction.output.sender.balance).toEqual(
           sender.balance - amount
         ));
     });
