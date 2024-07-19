@@ -30,6 +30,6 @@
     }
 }
 
-@import './Account/account.scss';
-@import './Login/login.scss';
-@import './Signup/signup.scss';
+@import '../../components/Account/account.scss';
+@import '../../components/Wallet/wallet.scss';
+@import '../../components/Explorer/explorer.scss';

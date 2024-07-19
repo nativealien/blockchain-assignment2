@@ -1,7 +1,7 @@
-import Login from "./Login/Login"
-import Signup from './Signup/Signup'
-import Account from './Account/Account'
-import Explorer from "../Explorer/Explorer"
+import Login from "../../components/Account/Login/Login"
+import Signup from '../../components/Account/Signup/Signup'
+import Account from '../../components/Account/Account'
+import Explorer from "../../components/Explorer/Explorer"
 
 import { useState } from "react"
 

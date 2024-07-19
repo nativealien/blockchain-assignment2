@@ -12,7 +12,7 @@ const Data = ({data}) => {
     return <div className="data">
         <h3 onClick={handleToggle}>Data</h3>
         {keys.map( id => {
-            return <Item item={data[id]} toggle={toggle} />
+            return <Item key={id} item={data[id]} toggle={toggle} />
         })}
 
     </div>

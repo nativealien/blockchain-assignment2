@@ -1,26 +1,26 @@
 .transaction{
-    width: 420px;
+    width: 400px;
     margin: auto;
 
-    border: 4px solid rgba(35, 59, 94, 0.175);
     border-radius: 5px;
     display: flex;
     flex-direction: column;
 
-    h2{
+    h3{
         margin: 0;
-        color: rgb(151, 119, 81);
+        padding: 0;
+        font-size: 0.9rem;
     }
 
-
     .transaction-form{
+        width: 90%;
         border: 0;
-        margin: auto;
+        padding: 0;
 
         input, select, option{
         height: 30px;
 
-        font-size: 1.3rem;
+        font-size: 1rem;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
     }

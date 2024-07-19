@@ -43,6 +43,7 @@ const Layout = () => {
 
   const reload = async () => {
     if (user) {
+        console.log('RELOAD!')
         try {
             const wallet = await getWallet(user.address);
             const chain = await getChain(user.address);

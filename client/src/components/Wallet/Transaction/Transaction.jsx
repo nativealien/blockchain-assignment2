@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { getNodes } from "../../../../service/usersApi"
-import { getWallet, sendTransaction } from "../../../../service/blockchainApi"
+import { getNodes } from "../../../service/usersApi"
+import { getWallet, sendTransaction } from "../../../service/blockchainApi"
 
 const Transaction = ({user, wallet, reload}) => {
     const [nodes, setNodes] = useState([])
@@ -31,8 +31,8 @@ const Transaction = ({user, wallet, reload}) => {
     }
 
     return <div className="transaction">
+            <h3>Transaction</h3>
             <form className="transaction-form">
-                <h2>Transaction</h2>
                 <select name="node" defaultValue="" onChange={handleChange}>
                     <option value="" disabled>Select user</option>
                     {nodes.map(node => {

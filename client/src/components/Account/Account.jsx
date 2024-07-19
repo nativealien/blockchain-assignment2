@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { getChain, getWallet } from "../../../service/blockchainApi";
-import Transaction from "./Transaction/Transaction";
-import Wallet from "./Wallet/Wallet";
-import Chain from "./Chain/Chain";
+import { getChain, getWallet } from "../../service/blockchainApi";
+import Transaction from "../Wallet/Transaction/Transaction";
+import Wallet from "../Wallet/Wallet";
 import User from "./User/User";
 
 const Account = ({user, chain, wallet, reload}) => {
@@ -23,11 +22,7 @@ const Account = ({user, chain, wallet, reload}) => {
             <div className="account" style={logged ? { display: "block" } : { display: "none" }}>
                 
                 <User user={user} loggOut={handleLogout} />
-
-                <Wallet chain={chain} wallet={wallet} />
-
-                <Transaction user={user} wallet={wallet} reload={reload} />
-
+                <Wallet chain={chain} user={user} wallet={wallet} reload={reload} />
             </div>
         );
     } else {

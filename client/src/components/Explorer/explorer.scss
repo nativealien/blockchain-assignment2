@@ -15,4 +15,6 @@
     }
 }
 
-@import './block.scss'
+@import './Parts/block.scss';
+@import './Parts/data.scss';
+@import './Parts/item.scss';
