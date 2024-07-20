@@ -1,3 +1,4 @@
+import { hashToggle } from "../../utils/utilities"
 import History from "./History/History"
 import Transaction from "./Transaction/Transaction"
 
@@ -7,7 +8,7 @@ const Wallet = ({chain, user, wallet, reload}) => {
     return <div className="wallet">
         <h2>Wallet</h2>
         <div className="wallet-info">
-            <p>Key: {keyString}</p>
+            <p>{hashToggle('Key: ', wallet.key)}</p>
             <p>Balance: {wallet.balance}</p>
         </div>
         <History chain={chain} walletKey={wallet.key} />

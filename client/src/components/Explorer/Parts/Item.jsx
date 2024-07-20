@@ -1,13 +1,11 @@
-
+import { hashToggle } from "../../../utils/utilities"
 
 const Item = ({item, toggle}) => {
-    const senderShortHash = `${item.output.sender.key.slice(0,4)}...${item.output.sender.key.slice(-4)}`
-    const reciverShortHash = `${item.output.receiver.key.slice(0,4)}...${item.output.receiver.key.slice(-4)}`
 
     return <div className="item" style={toggle ? {display: "none"} : {display: "block"}}>
-        <p>{item.id}</p>
-        <p>Sender: {senderShortHash}</p>
-        <p>Reciever: {reciverShortHash}</p>
+        {hashToggle('ID: ', item.id)}
+        {hashToggle('Sender: ', item.output.sender.key)}
+        {hashToggle('Receiver: ', item.output.receiver.key)}
         <p>Amount: {item.output.receiver.amount} (SWO)</p>
     </div>
 }

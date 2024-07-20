@@ -11,7 +11,6 @@ export default class Blockchain{
             lastBlock: this.chain.at(-1),
             data: data
         })
-        // this.chain.push(block)
         return block
     }
 

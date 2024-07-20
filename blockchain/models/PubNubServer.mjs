@@ -1,6 +1,7 @@
 import PubNub from 'pubnub'
 import Blockchain from './Blockchain.mjs'
 import Wallet from './Wallet.mjs'
+import Miner from './Miner.mjs'
 import TransactionPool from './TransactionPool.mjs'
 import Chain from './Schema/ChainSchema.mjs'
 
@@ -20,6 +21,11 @@ export default class PubNubServer extends PubNub{
         this.blockchain = new Blockchain()
         this.pool = new TransactionPool()
         this.wallet = new Wallet()
+        this.miner = new Miner({ 
+            blockchain: this.blockchain,
+            pool: this.pool,
+            wallet: this.wallet
+        })
      
         this.subscribe({ channels: CHANNELS })
         this.addListener(this.receiver())
@@ -36,25 +42,17 @@ export default class PubNubServer extends PubNub{
 
     async makeTransaction(receiver, amount){
         const transaction = this.wallet.transaction({receiver, amount})
-        this.pool.addTransaction(transaction)
-
         const validate = Transaction.validate(transaction)
-        const length = Object.values(this.pool.transactions).length 
 
-        console.log('makeTransaction: ', validate, length)
         if(validate){
-
+            this.pool.addTransaction(transaction)
+            const length = Object.values(this.pool.transactions).length 
             if(length >= 2){
-                console.log('POOL FULL'.bgRed)
-                const block = this.blockchain.newBlock({ data: this.pool.transactions })
-                await saveChain(block)
-                await saveTransaction(transaction)
+                const block = await this.miner.mine()
                 this.broadcast('Transaction', transaction )
                 this.broadcast('Blockchain', block)
-                console.log('Block mined: '.bgGreen, block)
             }else{ 
                 this.broadcast('Transaction', transaction )
-                await saveTransaction(transaction)
             }
         }else{
             console.log('makeTransaction: Transaction not valid')
@@ -83,6 +81,9 @@ export default class PubNubServer extends PubNub{
                     console.log('Transaction Msg: ', this.wallet.balance, +output.receiver.amount)
                     if(output.receiver.key === this.wallet.publicKey){
                         this.wallet.balance = this.wallet.balance + +output.receiver.amount
+                    }
+                    if(output.sender.key !== this.wallet.publicKey){
+                        this.pool.addTransaction(msg)
                     }
                     console.log('Balance: ', this.wallet.balance)
                 }

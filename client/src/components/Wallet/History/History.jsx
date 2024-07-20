@@ -1,3 +1,4 @@
+import { hashToggle } from "../../../utils/utilities"
 import { useState } from "react"
 
 const History = ({chain, walletKey}) => {
@@ -11,11 +12,9 @@ const History = ({chain, walletKey}) => {
             const test = Object.keys(element)
             test.forEach( test => {
                 if(element[test].output.receiver.key === walletKey){
-                    console.log('Receiver!')
                     resiArr.push(element[test].output)
                 }
                 if(element[test].output.sender.key === walletKey){
-                    console.log('Sender!')
                     sendArr.push(element[test].output)
                 }
             })
@@ -31,10 +30,11 @@ const History = ({chain, walletKey}) => {
             <div className="sent">
                 <h3>Sent</h3>
                 {sendArr.map( transaction => {
-                    console.log(transaction)
-                    const senderKey = `${transaction.receiver.key.slice(0,4)}...${transaction.receiver.key.slice(-4)}`
+                    // console.log(transaction)
+                    // const senderKey = `${transaction.receiver.key.slice(0,4)}...${transaction.receiver.key.slice(-4)}`
                
-                    return <p>{transaction.receiver.amount} (SWO) - TO - {senderKey}</p>
+                    // return <p>{transaction.receiver.amount} (SWO) - TO - {senderKey}</p>
+                    return toggleHash(transaction.receiver.key)
                 
                 })}
             </div>

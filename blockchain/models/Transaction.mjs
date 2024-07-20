@@ -1,19 +1,35 @@
 import { v4 } from 'uuid'
 import { verifySign } from '../utils/crypto-utils.mjs'
+import { saveTransaction } from '../utils/database-utils.mjs'
+
+const REWARD_ADDRESS = {address: 'reward-address'}
+const MINING_REWARD = 10
 
 export default class Transaction{
-    constructor({sender, receiver, amount}){
+    constructor({sender, receiver, amount, input, output}){
         this.id = v4().replaceAll('-', '')
-        this.output = this.createOutput({sender, receiver, amount})
-        this.input = this.createInput({ sender, output: this.output })
+        this.output = output || this.createOutput({sender, receiver, amount})
+        this.input = input ||  this.createInput({ sender, output: this.output })
     }
 
-    static validate(transaction){
+    static async validate(transaction){
         const { input: { address, amount, signature }, output } = transaction
         
         if(!verifySign({publicKey: address, data: output, signature})) return false
-        
+
+        await saveTransaction(transaction)
+
         return true
+    }
+
+    static async reward({ miner }){
+        const rewardTransaction =  new this({
+            input: REWARD_ADDRESS,
+            output: { [miner.publicKey]: MINING_REWARD }
+        })
+
+        await saveTransaction(rewardTransaction)
+        return rewardTransaction
     }
 
     createOutput({sender, receiver, amount}){
@@ -31,6 +47,7 @@ export default class Transaction{
             signature: sender.sign(output)
         }
     }
+
 
     update({sender, receiver, amount}){
         if(amount > this.output[sender.publicKey]) throw new Error('Not enough funds...')

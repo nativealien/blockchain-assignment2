@@ -1,4 +1,3 @@
-const address = 'http://localhost:4001/api/v1/auth'
 
 export const fetchData = async (url, method = 'GET', body = null) => {
     const token = localStorage.getItem('token')
