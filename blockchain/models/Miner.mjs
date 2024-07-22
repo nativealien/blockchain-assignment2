@@ -10,7 +10,13 @@ export default class Miner{
     }
     async mine(){
         const validTransactions = this.pool.validateTransactions()
-        validTransactions.push( Transaction.reward({ miner: this.wallet }))
+
+        const rewardTransaction = await Transaction.reward({ miner: this.wallet })
+        // console.log('rewardTransaction (pubnub): ', rewardTransaction)
+
+        validTransactions.push( rewardTransaction )
+
+        console.log('validTransactions (pubnub): ', validTransactions)
 
         const block = this.blockchain.newBlock({ data: validTransactions })
 

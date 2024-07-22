@@ -25,16 +25,16 @@ const History = ({chain, walletKey}) => {
     }
 
     return <div className="history">
-        <button onClick={handleClick}>history</button>
+        <button onClick={handleClick}>History</button>
         <div className="history-data" style={toggle ? {display: "flex"} : {display: "none"}}>
             <div className="sent">
                 <h3>Sent</h3>
                 {sendArr.map( transaction => {
-                    // console.log(transaction)
-                    // const senderKey = `${transaction.receiver.key.slice(0,4)}...${transaction.receiver.key.slice(-4)}`
+                    // console.log('TEST', transaction)
+                    const senderKey = `${transaction.receiver.key.slice(0,4)}...${transaction.receiver.key.slice(-4)}`
                
-                    // return <p>{transaction.receiver.amount} (SWO) - TO - {senderKey}</p>
-                    return toggleHash(transaction.receiver.key)
+                    return <p>{transaction.receiver.amount} (SWO) - TO - {senderKey}</p>
+                    // return hashToggle('', transaction.receiver.key)
                 
                 })}
             </div>

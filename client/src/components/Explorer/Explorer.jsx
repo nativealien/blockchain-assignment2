@@ -1,7 +1,9 @@
 import Block from "./Parts/Block"
 
 const Explorer = ({chain}) => {
+    console.log(chain)
     if(chain){
+        // return <div>Explorer</div>
         return <div className="explorer">
             <h2>Explorer</h2>
             {chain.map( (block, index) => {

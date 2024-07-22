@@ -8,7 +8,7 @@ const Wallet = ({chain, user, wallet, reload}) => {
     return <div className="wallet">
         <h2>Wallet</h2>
         <div className="wallet-info">
-            <p>{hashToggle('Key: ', wallet.key)}</p>
+            {hashToggle('Key: ', wallet.key)}
             <p>Balance: {wallet.balance}</p>
         </div>
         <History chain={chain} walletKey={wallet.key} />

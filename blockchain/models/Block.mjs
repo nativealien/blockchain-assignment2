@@ -29,6 +29,7 @@ export default class Block{
             hash = createHash(`${timestamp}${preHash}${diff}${nonce}${data}`)
             check = proofOfWork(hash, diff)
         }
+        console.log('Diff', diff)
         return new this({
             timestamp,
             preHash,

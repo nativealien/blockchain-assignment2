@@ -23,10 +23,22 @@ export default class Transaction{
     }
 
     static async reward({ miner }){
-        const rewardTransaction =  new this({
-            input: REWARD_ADDRESS,
-            output: { [miner.publicKey]: MINING_REWARD }
+
+        const dummySign = (dum) => {
+            console.log('Auto signer', dum)
+        }
+
+        const rewardTransaction = new this({
+            sender: {
+                balance: 10000,
+                publicKey: '< Reward Distrubution >',
+                sign: (output) => { return 'Dummy Signer'}
+            },
+            receiver: miner.publicKey,
+            amount: MINING_REWARD
         })
+
+        console.log('REWARD TRANSACTION: ', rewardTransaction)
 
         await saveTransaction(rewardTransaction)
         return rewardTransaction
@@ -40,6 +52,7 @@ export default class Transaction{
         return map
     }
     createInput({sender, output}){
+        console.log('SENDER', sender)
         return {
             timestamp: Date.now(),
             amount: sender.balance,
