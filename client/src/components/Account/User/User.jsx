@@ -24,11 +24,11 @@ const User = ({user, loggOut}) => {
 
     return <form className="user">
                 <h2>User</h2>
-                <input type="text" name="name" value={formdata.name} onChange={handleChange} /> 
-                <input type="email" name="email" value={formdata.email} onChange={handleChange} />
-                <input type="text" name="address" value={formdata.address} onChange={handleChange} />
+                <input type="text" name="name" value={formdata.name} onChange={handleChange} disabled/> 
+                <input type="email" name="email" value={formdata.email} onChange={handleChange} disabled/>
+                <input type="text" name="address" value={formdata.address} onChange={handleChange} disabled/>
                 {/* <input type="text" name="role" value={user.role} /> */}
-                <input type="submit" value="Update" onClick={handleClick} />
+                {/* <input type="submit" value="Update" onClick={handleClick} /> */}
     </form>
 }
 
