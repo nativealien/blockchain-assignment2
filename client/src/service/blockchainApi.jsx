@@ -23,5 +23,5 @@ export const sendTransaction = async (address, receiver, amount) => {
     const url = address + crypto + '/transaction'
 
     const result = await fetchData(url, 'POST', {receiver: receiver, amount: amount})
-    console.log(result)
+    return result
 }

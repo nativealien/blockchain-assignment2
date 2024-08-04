@@ -35,28 +35,40 @@ export default class PubNubServer extends PubNub{
     async initChain(){
         console.log(this.wallet.publicKey)
         const test = await Chain.findOne({ name: "blockchain" })
-        if(test.chain.length > 0){
+        if(test === null){
+            saveChain(this.blockchain.chain[0])
+        }
+        else if(test.chain.length > 0){
             this.blockchain.chain = test.chain
         }
     }
 
     async makeTransaction(receiver, amount){
         const transaction = this.wallet.transaction({receiver, amount})
-        const validate = Transaction.validate(transaction)
 
-        if(validate){
-            this.pool.addTransaction(transaction)
-            const length = Object.values(this.pool.transactions).length 
-            if(length >= 2){
-                const block = await this.miner.mine()
-                this.broadcast('Transaction', transaction )
-                this.broadcast('Blockchain', block)
-            }else{ 
-                this.broadcast('Transaction', transaction )
+        if(typeof transaction !== typeof ''){
+            const validate = Transaction.validate(transaction)
+    
+            if(validate){
+                this.pool.addTransaction(transaction)
+                const length = Object.values(this.pool.transactions).length 
+                if(length >= 2){
+                    const block = await this.miner.mine()
+                    this.broadcast('Transaction', transaction )
+                    this.broadcast('Blockchain', block)
+                }else{ 
+                    this.broadcast('Transaction', transaction )
+                }
+                console.log('Transaction complete')
+                return 'Transaction complete'
+            }else{
+                console.log('Transaction not valid')
+                return 'Transaction not valid'
             }
-        }else{
-            console.log('makeTransaction: Transaction not valid')
+        }else {
+            return transaction
         }
+
     }
 
     broadcast(channel, message){

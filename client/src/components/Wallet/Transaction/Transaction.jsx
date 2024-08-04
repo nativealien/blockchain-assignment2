@@ -20,6 +20,7 @@ const Transaction = ({user, wallet, reload}) => {
     const handleChange = e => {
         const {name, value} = e.target
         setFormdata(preState => ({ ...preState, [name]: value }))
+        console.log(formdata)
     }
 
     const handleClick = async e => {
@@ -27,6 +28,7 @@ const Transaction = ({user, wallet, reload}) => {
 
         const receivingWallet = await getWallet(formdata.node)
         const transaction = await sendTransaction(user.address, receivingWallet.key, formdata.amount)
+        console.log('TEST', transaction.data)
         reload()
     }
 

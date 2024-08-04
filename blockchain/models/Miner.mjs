@@ -12,7 +12,6 @@ export default class Miner{
         const validTransactions = this.pool.validateTransactions()
 
         const rewardTransaction = await Transaction.reward({ miner: this.wallet })
-        // console.log('rewardTransaction (pubnub): ', rewardTransaction)
 
         validTransactions.push( rewardTransaction )
 

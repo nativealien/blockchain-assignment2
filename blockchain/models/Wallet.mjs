@@ -15,7 +15,7 @@ export default class Wallet{
             return new Transaction({ sender: this, receiver, amount })
         }
         else {
-            throw new Error('Insufficient funds...')
+            return 'Insufficient funds...'
         }
     }
     sign(data){

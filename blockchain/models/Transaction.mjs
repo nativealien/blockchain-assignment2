@@ -24,10 +24,6 @@ export default class Transaction{
 
     static async reward({ miner }){
 
-        const dummySign = (dum) => {
-            console.log('Auto signer', dum)
-        }
-
         const rewardTransaction = new this({
             sender: {
                 balance: 10000,
