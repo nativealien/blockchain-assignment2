@@ -1,0 +1,24 @@
+import Login from "../../components/Account/Login/Login"
+import Signup from '../../components/Account/Signup/Signup'
+import Account from '../../components/Account/Account'
+import Explorer from "../../components/Explorer/Explorer"
+
+import { useState } from "react"
+
+const Main = ({user, chain, wallet, reload}) => {
+    const [change, setChange] = useState(true)
+
+    const toggleChange = e => {
+        reload()
+        setChange(!change)
+    }
+
+    return <main className="main">
+        {change ? (<Login change={toggleChange} reload={reload} />) : (<Signup change={toggleChange} />)}
+        <Account user={user} chain={chain} wallet={wallet} reload={reload} />
+        <Explorer chain={chain}/>
+    </main>
+    
+}
+
+export default Main

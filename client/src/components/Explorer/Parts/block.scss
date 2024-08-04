@@ -1,0 +1,11 @@
+
+.block{
+    margin: 5px;
+    padding: 5px;
+
+    border: 4px solid rgba(35, 59, 94, 0.175);
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+@import './data.scss'

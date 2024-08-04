@@ -3,7 +3,7 @@ import Response from "../models/Response.mjs"
 export const loggEvent = (req, res, next) => {
     res.on('finish', () => {
         const tag = "logg"
-        const log = `${tag.toUpperCase()} - ${req.method}( ${res.statusCode} ) - ${new Date().toLocaleDateString('sv-SE')} ${new Date().toLocaleTimeString('sv-SE')} - ${req.originalUrl} ${res.message ? ` - ${res.message}` : ''}\n`
+        const log = `${tag.toUpperCase()} - ${req.method}( ${res.statusCode} ) - ${new Date().toLocaleDateString('sv-SE')} ${new Date().toLocaleTimeString('sv-SE')} - ${req.originalUrl} ${res.message ? ` - ${res.message}` : ''}\n`.bgMagenta
         console.log(log)
     })
     next()

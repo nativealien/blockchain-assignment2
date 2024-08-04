@@ -1,0 +1,47 @@
+$color1: #3498db;
+$color2: #2ecc71;
+$color3: #2ecc71;
+$color4: #2ecc71;
+
+$font-fam1: 'Helvetica, Arial, sans-serif';
+$font-fam2: 'Helvetica, Arial, sans-serif';
+
+$font-size1: 1rem;
+$font-size2: 1.2rem;
+
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+
+    background-image: radial-gradient(rgba(99, 163, 206, 0.664), rgb(197, 197, 226));
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    .short-hash{
+        width: 250px;
+
+        cursor: pointer;
+    }
+
+    .long-hash{
+        height: 40px;
+        width: 250px;
+        font-size: 0.5rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+
+        position: absolute;
+
+        background-color: rgba(102, 174, 216, 0.842);
+        
+
+        cursor: pointer;
+    }
+}
+
+@import './layout/layout.scss';

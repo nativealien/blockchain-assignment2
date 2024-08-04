@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
-const walletSchema = new mongoose.Schema({
+const poolSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [ true, 'Name is required']
     },
-    chain: { 
+    pool: { 
         type: Array, 
         required: [true, 'Chain is required']
-    }
+    },
 })
 
-export default mongoose.model('Wallet', walletSchema)
+export default mongoose.model('Pool', poolSchema)

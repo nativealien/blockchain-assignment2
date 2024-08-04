@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const chainSchema = new mongoose.Schema({
     name: {
         type: String,

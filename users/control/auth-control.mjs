@@ -3,8 +3,8 @@ import Response from "../models/Response.mjs";
 import User from "../models/schema/UserSchema.mjs";
 
 export const register = asyncHandler( async (req, res, next) => {
-    const { name, email, password, role } = req.body
-    const user = await User({name, email, password, role})
+    const { name, email, address, password, role } = req.body
+    const user = await User({name, email, address, password, role})
 
     user.save()
 
@@ -12,6 +12,7 @@ export const register = asyncHandler( async (req, res, next) => {
 })
 
 export const login = asyncHandler( async (req, res, next) => {
+    console.log(req.body)
     const { email, password } = req.body
     if(!email || !password) return next(new Error('Email or password missing...'))
 
@@ -82,6 +83,15 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
 export const getMe = asyncHandler( async (req, res, next) => {
     const user = await User.findById(req.user._id)
     res.status(200).json(Response.get(null, { name: user.name, email: user.email, role: user.role }))
+})
+
+export const getAllNodes = asyncHandler( async (req, res, next) => {
+    const address = await User.find({}, 'address')
+    const addressArray = address.map( add => add.address)
+
+    console.log(addressArray)
+    res.status(200).json(Response.get(null, { nodes: addressArray}))
+
 })
 
 const createAndSendToken = (user, statusCode, res) => {

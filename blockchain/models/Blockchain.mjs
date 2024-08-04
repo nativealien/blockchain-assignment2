@@ -11,14 +11,12 @@ export default class Blockchain{
             lastBlock: this.chain.at(-1),
             data: data
         })
-        this.chain.push(block)
         return block
     }
 
     updateChain(newChain){
         if(newChain <= this.chain.length) return
         if(!Blockchain.validateChain(newChain)) return
-        console.log('Chain validated and updated', newChain)
         this.chain = newChain
     }
 

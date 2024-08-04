@@ -1,0 +1,33 @@
+.wallet{
+    width: 400px;
+    margin: auto;
+    padding: 10px;
+
+    border: 4px solid rgba(35, 59, 94, 0.175);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    h2{
+        margin: 0;
+        color: rgb(151, 119, 81);
+        text-align: center;
+    }
+
+    .wallet-info{
+        border-bottom: 0.5px solid grey;
+        display: flex;
+        justify-content: space-between;
+        p{
+            height: 30px;
+            padding: 0;
+            margin: 0;
+    
+            font-size: 0.8rem;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    }
+}
+
+@import './History/history.scss';
+@import './Transaction/transaction.scss';

@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login, lostPassword, resetPassword, getMe, updateUser, updatePassword } from '../control/auth-control.mjs';
+import { register, login, lostPassword, resetPassword, getMe, updateUser, updatePassword, getAllNodes } from '../control/auth-control.mjs';
 import { protect } from '../middle/authorization.mjs';
 
 const authRouter = express.Router()
@@ -10,5 +10,6 @@ authRouter.put('/resetpassword/:token', resetPassword);
 authRouter.put('/updateuser', protect, updateUser);
 authRouter.put('/updatepassword', protect, updatePassword);
 authRouter.get('/me',protect, getMe);
+authRouter.get('/nodes',protect, getAllNodes);
 
 export { authRouter }

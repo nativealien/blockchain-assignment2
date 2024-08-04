@@ -1,0 +1,28 @@
+.transaction{
+    width: 400px;
+    margin: auto;
+
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    h3{
+        margin: 0;
+        padding: 0;
+        font-size: 0.9rem;
+    }
+
+    .transaction-form{
+        width: 90%;
+        border: 0;
+        padding: 0;
+
+        input, select, option{
+        height: 30px;
+
+        font-size: 1rem;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    }
+
+}

@@ -1,3 +1,4 @@
+import Transaction from "./Transaction.mjs"
 
 
 export default class TransactionPool{
@@ -9,9 +10,13 @@ export default class TransactionPool{
         return this.transactions
     }
     checkTransaction({address}){
-        console.log('Check transaction')
         const check = Object.values(this.transactions)
-        console.log(check)
         return check.find( transaction => transaction.input.address === address)
+    }
+    validateTransactions(){
+        const validTransactions = Object.values(this.transactions).filter(
+            transaction => Transaction.validate(transaction)
+        )
+        return validTransactions
     }
 }
